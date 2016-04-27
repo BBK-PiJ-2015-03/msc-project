@@ -70,7 +70,7 @@ public class mainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         WebEngine browser = liveMap.getEngine();
         mapView.getEngine().load(
-                mainController.class.getResource("/Controllers/map.html").toExternalForm());
+                mainController.class.getResource("/Maps/map.html").toExternalForm());
         browser.load("https://maps.google.co.uk");
     }
 
