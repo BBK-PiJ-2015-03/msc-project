@@ -12,11 +12,14 @@ public class Main extends Application{
 
     @Override
     public void start(Stage window) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainLayout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainLayoutGMaps.fxml"));
         window.setTitle("Desktop Booking & Dispatch System");
         window.setMinWidth(1024);
         window.setMinHeight(720);
         window.setScene(new Scene(root, 800, 600));
         window.show();
+
+        String jsonString = "{ \"name\" : \"John\", \"age\" : \"20\", \"address\" : \"some address\" }";
+
     }
 }
