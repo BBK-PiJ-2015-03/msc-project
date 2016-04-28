@@ -18,8 +18,5 @@ public class Main extends Application{
         window.setMinHeight(720);
         window.setScene(new Scene(root, 800, 600));
         window.show();
-
-        String jsonString = "{ \"name\" : \"John\", \"age\" : \"20\", \"address\" : \"some address\" }";
-
     }
 }
