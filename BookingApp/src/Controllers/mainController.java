@@ -6,9 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.xml.sax.SAXException;
+import resources.gmapsfx.GoogleMapView;
+import resources.gmapsfx.MapComponentInitializedListener;
+import resources.gmapsfx.javascript.object.GoogleMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class mainController implements Initializable {
+public class MainController implements Initializable, MapComponentInitializedListener {
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -52,8 +54,6 @@ public class mainController implements Initializable {
     @FXML
     private Button bookingCancelButton;
     @FXML
-    private WebView mapView;
-    @FXML
     private Tab dispatchTab;
     @FXML
     private Tab liveMapTab;
@@ -66,43 +66,73 @@ public class mainController implements Initializable {
     @FXML
     private Tab settingsTab;
 
+    //Google Maps
+    @FXML
+    private GoogleMapView mapView;
+    private GoogleMap map;
+    private MapController mapControll;
+
+    //Journey Route Details
+    @FXML
+    private Label journeyDistanceLabel;
+    @FXML
+    private Label journeyDurationLabel;
+    @FXML
+    private Label journeyPickupFromLabel;
+    @FXML
+    private Label journeyClosestDriverLabel;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        WebEngine browser = liveMap.getEngine();
-        mapView.getEngine().load(
-                mainController.class.getResource("/Maps/map.html").toExternalForm());
-        browser.load("https://maps.google.co.uk");
-    }
-
-    public String mapPathBuilder(String from, String to){
-        String url = "https://www.google.com/maps/embed/v1/directions?key=";
-        String googleAPI = "AIzaSyB2kViW5AL4Q1vGaik53tkw6Ve1ZXdT2vg";
-        String origin = "&origin=";
-        String destination = "&destination=";
-        String result = url+googleAPI+origin+from+destination+to;
-        System.out.println(result);
-        return result;
-
+        mapView.addMapInializedListener(this);
+//        WebEngine browser = liveMap.getEngine();
+//        mapView.getEngine().load(
+//                MainController.class.getResource("/Maps/map.html").toExternalForm());
+//        browser.load("https://maps.google.co.uk");
     }
 
     @FXML
-    void fromAddressKeyPressed(KeyEvent event) {
-
+    public void calculateRouteButtonFired(){
+        String origin = bookingFromNumberField.getPromptText()+" "+bookingFromAddressField.getText();
+        String destination = bookingToNumberField.getPromptText()+" "+bookingToAddressField.getText();
+        calculateRouteOnMap(origin,destination);
     }
 
+    public void calculateRouteOnMap(String origin, String destination){
+        mapControll = new MapController(mapView, map, journeyDistanceLabel, journeyDurationLabel);
+        mapControll.newRoute(origin,destination);
+
+        XmlParser x = new XmlParser();
+        String journeyTime;
+        try {
+            journeyTime = x.getJourneyDuration(origin,destination);
+        } catch (Exception e) {
+            journeyTime = "Unavailable";
+        }
+        journeyDurationLabel.setText("Duration: "+journeyTime);
+        journeyPickupFromLabel.setText("Pickup From: "+bookingFromAddressField.getText());
+    }
+
+
     @FXML
-    void toAddressKeyPressed(KeyEvent event) throws ParserConfigurationException, TransformerException, SAXException, IOException {
-        if(event.getCode() == KeyCode.ENTER) {
+    void addressKeyPressed(KeyEvent event) throws ParserConfigurationException, TransformerException, SAXException, IOException {
+        if (event.getCode() == KeyCode.ENTER) {
             XmlParser x = new XmlParser();
-            String result = "";
-            String postCode = bookingToAddressField.getText();
-            postCode = postCode.replaceAll("\\s","");
+            String result = "", postCode = "";
+            postCode = ((TextField) event.getSource()).getText();
+            postCode = postCode.replaceAll("\\s", "");
             result = x.addressFromPostCode(postCode);
-            if(result != null) {
-                bookingToAddressField.setText(result);
+            if (result != null) {
+                ((TextField) event.getSource()).setText(result);
             }
         }
     }
+
+        @Override
+        public void mapInitialized() {
+            MapController mc = new MapController(mapView, map, journeyDistanceLabel, journeyDurationLabel);
+            mc.mapInitialized();
+        }
 }
 
 
