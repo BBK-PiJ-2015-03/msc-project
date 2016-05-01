@@ -1,26 +1,37 @@
 package Model;
 
+import Model.Interfaces.Account;
+import Model.Interfaces.Booking;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Cash account, all cash booking to be stored here.
  */
-public class Cash implements Account {
+public final class Cash implements Account {
+    private final static Cash instance = new Cash();
     List<Booking> cashBookings = new ArrayList<>();
 
+    public static synchronized Cash getInstance() {
+        return instance;
+    }
+
+    private Cash() {
+    }
+
     @Override
-    public List<Booking> getJobs() {
+    public List<Booking> getBookings() {
         return cashBookings;
     }
 
     @Override
-    public void deleteJob(Booking booking) {
+    public void deleteBooking(Booking booking) {
         cashBookings.remove(booking);
     }
 
     @Override
-    public void newJob(Booking booking) {
+    public void newBooking(Booking booking) {
         cashBookings.add(booking);
     }
 }
