@@ -4,7 +4,7 @@
  */
 
 import org.junit.Test;
-import Model.TimeFieldValidator;
+import Utils.TimeFieldValidator;
 
 import static junit.framework.TestCase.assertTrue;
 
