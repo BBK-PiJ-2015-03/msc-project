@@ -1,4 +1,4 @@
-import Model.Pricing;
+import Model.Interfaces.Pricing;
 import Model.PricingImpl;
 import org.junit.Before;
 import org.junit.Test;
