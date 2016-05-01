@@ -1,6 +1,9 @@
 package Controllers;
 
+import Model.VehicleTypes;
 import Utils.XmlParser;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -8,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
 import org.xml.sax.SAXException;
+import Model.TimeFieldValidator;
 import resources.gmapsfx.GoogleMapView;
 import resources.gmapsfx.MapComponentInitializedListener;
 import resources.gmapsfx.javascript.object.GoogleMap;
@@ -16,6 +20,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable, MapComponentInitializedListener {
@@ -36,9 +43,13 @@ public class MainController implements Initializable, MapComponentInitializedLis
     @FXML
     private TextField bookingToAddressField;
     @FXML
-    private SplitMenuButton bookingVehicleType;
+    private ComboBox<VehicleTypes> bookingVehicleType;
     @FXML
-    private SplitMenuButton bookingPassengerNo;
+    private DatePicker bookingDateSelected;
+    @FXML
+    private ComboBox bookingPassengerNo;
+    @FXML
+    private TextField bookingTimeSelected;
     @FXML
     private TextField bookingPassengerNameField;
     @FXML
@@ -82,13 +93,28 @@ public class MainController implements Initializable, MapComponentInitializedLis
     @FXML
     private Label journeyClosestDriverLabel;
 
+    //Concurrency
+    Service<Void> backgroundThread;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mapView.addMapInializedListener(this);
-//        WebEngine browser = liveMap.getEngine();
-//        mapView.getEngine().load(
-//                MainController.class.getResource("/Maps/map.html").toExternalForm());
-//        browser.load("https://maps.google.co.uk");
+        bookingDateSelected.setValue(LocalDate.now());
+        bookingTimeSelected.setText(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime()));
+    }
+
+    @FXML
+    public void timeFieldValidation(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            TimeFieldValidator tfv = new TimeFieldValidator();
+            String time = tfv.format(bookingTimeSelected.getText());
+            if(tfv.validate(time)){
+                bookingTimeSelected.setText(time);
+            } else {
+                bookingTimeSelected.setText(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime()));
+            }
+        }
     }
 
     @FXML
@@ -98,33 +124,47 @@ public class MainController implements Initializable, MapComponentInitializedLis
         calculateRouteOnMap(origin,destination);
     }
 
-    public void calculateRouteOnMap(String origin, String destination){
+    public void calculateRouteOnMap(String origin, String destination) {
         mapControll = new MapController(mapView, map, journeyDistanceLabel, journeyDurationLabel);
-        mapControll.newRoute(origin,destination);
-
+        mapControll.newRoute(origin, destination);
         XmlParser x = new XmlParser();
         String journeyTime;
         try {
-            journeyTime = x.getJourneyDuration(origin,destination);
+            journeyTime = x.getJourneyDuration(origin, destination);
         } catch (Exception e) {
             journeyTime = "Unavailable";
         }
-        journeyDurationLabel.setText("Duration: "+journeyTime);
-        journeyPickupFromLabel.setText("Pickup From: "+bookingFromAddressField.getText());
+        journeyDurationLabel.setText("Duration: " + journeyTime);
+        journeyPickupFromLabel.setText("Pickup From: " + bookingFromAddressField.getText());
     }
 
 
     @FXML
     void addressKeyPressed(KeyEvent event) throws ParserConfigurationException, TransformerException, SAXException, IOException {
         if (event.getCode() == KeyCode.ENTER) {
-            XmlParser x = new XmlParser();
-            String result = "", postCode = "";
-            postCode = ((TextField) event.getSource()).getText();
-            postCode = postCode.replaceAll("\\s", "");
-            result = x.addressFromPostCode(postCode);
-            if (result != null) {
-                ((TextField) event.getSource()).setText(result);
+            backgroundThread = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        XmlParser x = new XmlParser();
+                        String result, postCode;
+                        postCode = ((TextField) event.getSource()).getText();
+                        postCode = postCode.replaceAll("\\s", "");
+                        Thread t = new Thread();
+                        result = x.addressFromPostCode(postCode);
+                        if (!result.equals(postCode.toUpperCase())) {
+                            ((TextField) event.getSource()).setText(result);
+                            updateMessage("Done !");
+                        }
+                        return null;
+                    }
+                };
             }
+            };
+        journeyClosestDriverLabel.textProperty().bind(backgroundThread.messageProperty());
+        backgroundThread.restart();
         }
     }
 
@@ -133,6 +173,8 @@ public class MainController implements Initializable, MapComponentInitializedLis
             MapController mc = new MapController(mapView, map, journeyDistanceLabel, journeyDurationLabel);
             mc.mapInitialized();
         }
+
+
 }
 
 
