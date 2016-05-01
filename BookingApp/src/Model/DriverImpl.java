@@ -1,19 +1,41 @@
 package Model;
 
+import Model.Interfaces.Driver;
+
 /**
  * Created by J2FX on 01/05/2016.
  */
-public class DriverImpl {
+public class DriverImpl implements Driver {
     public String name;
     public String id;
     public String address;
+    public String tel;
     public VehicleImpl vehicle;
     public String pinCode;
     public String nationalInsurance;
     public String pcoExpiryDate;
     public String pcoNumber;
-
     boolean active;
+
+    public DriverImpl() {
+        Archive.allDrivers.add(this);
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getPcoNumber() {
+        return pcoNumber;
+    }
+
+    public void setPcoNumber(String pcoNumber) {
+        this.pcoNumber = pcoNumber;
+    }
 
     public String getName() {
         return name;

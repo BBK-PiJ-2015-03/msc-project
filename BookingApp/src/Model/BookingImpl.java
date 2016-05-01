@@ -1,5 +1,9 @@
 package Model;
 
+import Model.Interfaces.Account;
+import Model.Interfaces.Booking;
+import Model.Interfaces.Driver;
+
 /**
  * Implementation of Booking interface, will contain all relevant booking details of a job.
  */
@@ -24,12 +28,14 @@ public class BookingImpl implements Booking {
     public BookingImpl(){
         this.bookingNumber = bookingNumberCounter;
         bookingNumberCounter++;
+        Archive.allBookings.add(this);
     }
 
 
     @Override
     public void deleteBooking() {
-        account.deleteJob(this);
+        account.deleteBooking(this);
+        Archive.allBookings.remove(this);
     }
 
     public int getBookingNumber() {
