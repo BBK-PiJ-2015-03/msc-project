@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Interfaces.Pricing;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -8,7 +10,7 @@ import java.text.DecimalFormat;
  * There should only be one instance of this class.
  */
 public final class PricingImpl implements Pricing {
-    private static PricingImpl instance = new PricingImpl();
+    private final static PricingImpl instance = new PricingImpl();
     private double baseFare;
     private double pricePerUnitOfDistance;
     private double pricePerUnitOfTime;
