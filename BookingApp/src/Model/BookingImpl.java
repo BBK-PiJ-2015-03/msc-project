@@ -25,10 +25,11 @@ public class BookingImpl implements Booking {
     private boolean completed = false;
     private Driver driver;
 
-    public BookingImpl(){
+    public BookingImpl(Account account){
         this.bookingNumber = bookingNumberCounter;
         bookingNumberCounter++;
         Archive.allBookings.add(this);
+        account.newBooking(this);
     }
 
 
