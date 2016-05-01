@@ -1,5 +1,8 @@
 package Model;
 
+import Model.Interfaces.Driver;
+import Model.Interfaces.Vehicle;
+
 /**
  * Implementation of vehicle.
  */
@@ -11,6 +14,10 @@ public class VehicleImpl implements Vehicle {
     private String motExpiryDate;
     private String insuranceExpiryDate;
     private String pcoExpiryDate;
+
+    public VehicleImpl() {
+        Archive.allVehicles.add(this);
+    }
 
     public String getRegistration() {
         return registration;
