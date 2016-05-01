@@ -142,6 +142,9 @@
                                                                   <String fx:value="8 Seater" />
                                                               </FXCollections>
                                                           </items>
+                                                          <value>
+                                                              <String fx:value="Saloon" />
+                                                          </value>
                                                       </ComboBox>
                                                    </children>
                                                 </HBox>
@@ -165,6 +168,9 @@
                                                                    <String fx:value="7" />
                                                                </FXCollections>
                                                            </items>
+                                                           <value>
+                                                               <String fx:value="1" />
+                                                           </value>
                                                        </ComboBox>
                                                    </children>
                                                 </HBox>
