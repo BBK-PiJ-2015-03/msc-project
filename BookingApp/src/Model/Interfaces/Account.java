@@ -1,4 +1,4 @@
-package Model;
+package Model.Interfaces;
 
 import java.util.List;
 
@@ -9,16 +9,16 @@ public interface Account {
     /**
      * @return list of jobs for the account
      */
-    List<Booking> getJobs();
+    List<Booking> getBookings();
 
     /**
      * Remove a job
      */
-    void deleteJob(Booking booking);
+    void deleteBooking(Booking booking);
 
     /**
      * Add a job
      */
-    void newJob(Booking booking);
+    void newBooking(Booking booking);
 
 }

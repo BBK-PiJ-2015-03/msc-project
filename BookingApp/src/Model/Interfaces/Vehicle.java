@@ -1,4 +1,4 @@
-package Model;
+package Model.Interfaces;
 
 /**
  * Interface for vehicle.
