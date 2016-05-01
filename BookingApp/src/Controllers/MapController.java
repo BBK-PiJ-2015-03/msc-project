@@ -17,7 +17,7 @@ import resources.gmapsfx.service.geocoding.GeocodingServiceCallback;
 public class MapController implements MapComponentInitializedListener,
         ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback { //MapComponentInitializedListener {
 
-    //Pointers to UI controlls in main class
+    //Pointers to UI controls in main class
     private GoogleMapView mapView;
     private GoogleMap map;
     private Label journeyDistanceLabel;
