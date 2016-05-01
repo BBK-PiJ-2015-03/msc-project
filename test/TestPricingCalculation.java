@@ -6,7 +6,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 /**
- * Created by J2FX on 01/05/2016.
+ * Test for pricing calculation
  */
 public class TestPricingCalculation {
     private Pricing priceCalc = PricingImpl.getInstance();
