@@ -11,7 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
 import org.xml.sax.SAXException;
-import Model.TimeFieldValidator;
+import Utils.TimeFieldValidator;
 import resources.gmapsfx.GoogleMapView;
 import resources.gmapsfx.MapComponentInitializedListener;
 import resources.gmapsfx.javascript.object.GoogleMap;
