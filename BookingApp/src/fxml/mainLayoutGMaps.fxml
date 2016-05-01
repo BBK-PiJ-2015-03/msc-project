@@ -2,14 +2,34 @@
 
 <?import resources.gmapsfx.GoogleMapView?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.collections.FXCollections ?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
   <children>
@@ -82,12 +102,12 @@
                                              <children>
                                                 <HBox>
                                                    <children>
+                                                      <Pane prefHeight="20.0" prefWidth="4.0" />
                                                       <Label text="From: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <Pane prefHeight="20.0" prefWidth="4.0" />
                                                       <TextField fx:id="bookingFromNumberField" prefHeight="27.0" prefWidth="40.0">
                                                          <HBox.margin>
                                                             <Insets />
@@ -98,12 +118,12 @@
                                                 </HBox>
                                                 <HBox>
                                                    <children>
+                                                      <Pane prefHeight="27.0" prefWidth="19.0" />
                                                       <Label text="To: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <Pane prefHeight="27.0" prefWidth="19.0" />
                                                       <TextField fx:id="bookingToNumberField" prefHeight="27.0" prefWidth="40.0" />
                                                       <TextField fx:id="bookingToAddressField" onKeyPressed="#addressKeyPressed" prefHeight="27.0" prefWidth="272.0">
                                                          <HBox.margin>
@@ -123,11 +143,12 @@
                                                 </Label>
                                              </children>
                                           </Pane>
-                                          <VBox layoutX="15.0" layoutY="90.0" prefHeight="64.0" prefWidth="317.0" spacing="10.0">
+                                          <VBox layoutX="15.0" layoutY="90.0" prefHeight="64.0" prefWidth="406.0" spacing="10.0">
                                              <children>
                                                 <HBox>
                                                    <children>
-                                                      <Label text="Vehicle Type:">
+                                                      <Pane prefHeight="27.0" prefWidth="40.0" />
+                                                      <Label prefHeight="17.0" text="Type: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
@@ -146,16 +167,22 @@
                                                               <String fx:value="Saloon" />
                                                           </value>
                                                       </ComboBox>
-                                                   </children>
-                                                </HBox>
-                                                <HBox>
-                                                   <children>
-                                                      <Label text="Passengers:">
+                                                      <Pane prefHeight="27.0" prefWidth="47.0" />
+                                                      <Label text="Date: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <Pane prefHeight="27.0" prefWidth="8.0" />
+                                                      <DatePicker fx:id="bookingDateSelected" prefHeight="27.0" prefWidth="120.0" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox>
+                                                   <children>
+                                                      <Label text="Passengers: ">
+                                                         <HBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </HBox.margin>
+                                                      </Label>
                                                        <ComboBox fx:id="bookingPassengerNo" prefWidth="120.0">
                                                            <items>
                                                                <FXCollections fx:factory="observableArrayList">
@@ -172,6 +199,13 @@
                                                                <String fx:value="1" />
                                                            </value>
                                                        </ComboBox>
+                                                      <Pane prefHeight="27.0" prefWidth="46.0" />
+                                                      <Label text="Time: ">
+                                                         <HBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <TextField fx:id="bookingTimeSelected" onKeyPressed="#timeFieldValidation" prefHeight="27.0" prefWidth="120.0" text="NOW" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -199,17 +233,16 @@
                                                 </Label>
                                              </children>
                                           </Pane>
-                                          <VBox layoutX="16.0" layoutY="329.0" prefHeight="68.0" prefWidth="316.0" spacing="10.0">
+                                          <VBox layoutX="16.0" layoutY="329.0" prefHeight="101.0" prefWidth="355.0" spacing="10.0">
                                              <children>
                                                 <HBox>
                                                    <children>
-                                                      <Label text="Name:">
+                                                      <Label text="Name: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <Pane prefHeight="20.0" prefWidth="4.0" />
-                                                      <TextField fx:id="bookingPassengerNameField" prefHeight="27.0" prefWidth="272.0">
+                                                      <TextField fx:id="bookingPassengerNameField" prefHeight="27.0" prefWidth="312.0">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -218,13 +251,13 @@
                                                 </HBox>
                                                 <HBox>
                                                    <children>
-                                                      <Label text="Tel:">
+                                                      <Pane prefHeight="27.0" prefWidth="17.0" />
+                                                      <Label text="Tel: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <Pane prefHeight="27.0" prefWidth="21.0" />
-                                                      <TextField fx:id="bookingPassengerTelField" prefHeight="27.0" prefWidth="272.0">
+                                                      <TextField fx:id="bookingPassengerTelField" prefHeight="27.0" prefWidth="312.0">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -233,13 +266,13 @@
                                                 </HBox>
                                                 <HBox>
                                                    <children>
-                                                      <Label text="Email:">
+                                                      <Pane prefHeight="27.0" prefWidth="3.0" />
+                                                      <Label text="Email: ">
                                                          <HBox.margin>
                                                             <Insets top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <Pane prefHeight="27.0" prefWidth="7.0" />
-                                                      <TextField fx:id="bookingPassengerEmailField" prefHeight="27.0" prefWidth="272.0">
+                                                      <TextField fx:id="bookingPassengerEmailField" prefHeight="27.0" prefWidth="312.0">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -260,7 +293,7 @@
                                           <VBox layoutX="16.0" layoutY="476.0">
                                              <children>
                                                 <Label text="Comments:" />
-                                                <TextArea fx:id="bookingCommentsField" prefHeight="4.0" prefWidth="316.0" />
+                                                <TextArea fx:id="bookingCommentsField" prefHeight="4.0" prefWidth="355.0" />
                                              </children>
                                           </VBox>
                                           <Pane layoutY="545.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -272,15 +305,51 @@
                                                 </Label>
                                              </children>
                                           </Pane>
-                                          <TextField fx:id="bookingPriceField" layoutX="16.0" layoutY="595.0" prefHeight="27.0" prefWidth="147.0" />
-                                          <Button fx:id="bookingAcceptButton" layoutX="174.0" layoutY="595.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
-                                          <Button fx:id="bookingCancelButton" layoutX="245.0" layoutY="595.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancel" textFill="WHITE" />
+                                          <HBox layoutX="16.0" layoutY="595.0" prefHeight="27.0" prefWidth="355.0" spacing="10.0">
+                                             <children>
+                                                <HBox>
+                                                   <children>
+                                                      <Label text="£">
+                                                         <HBox.margin>
+                                                            <Insets top="2.0" />
+                                                         </HBox.margin>
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="bookingPriceField" prefHeight="27.0" prefWidth="200.0" />
+                                                   </children>
+                                                </HBox>
+                                                <Button fx:id="bookingAcceptButton" mnemonicParsing="false" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
+                                                <Button fx:id="bookingCancelButton" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancel" textFill="WHITE" />
+                                             </children>
+                                          </HBox>
                                           <Button contentDisplay="GRAPHIC_ONLY" layoutX="379.0" layoutY="223.0" mnemonicParsing="false" onAction="#calculateRouteButtonFired" prefHeight="45.0" prefWidth="56.0" />
                                           <ImageView fitHeight="150.0" fitWidth="40.0" layoutX="387.0" layoutY="225.0" onMouseClicked="#calculateRouteButtonFired" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
                                              </image>
                                           </ImageView>
+                                          <HBox layoutX="204.0" layoutY="12.0">
+                                             <children>
+                                                <Label text="Cash/Account: ">
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <ComboBox fx:id="bookingAccountOrCash" prefWidth="120.0" value="Saloon">
+                                                   <items>
+                                                      <FXCollections fx:factory="observableArrayList">
+                                                         <String fx:value="Saloon" />
+                                                         <String fx:value="Estate" />
+                                                         <String fx:value="Executive" />
+                                                         <String fx:value="7 Seater" />
+                                                         <String fx:value="8 Seater" />
+                                                      </FXCollections>
+                                                   </items>
+                                                </ComboBox>
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -294,7 +363,7 @@
                                               <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <GridPane style="-fx-background-color: d1d1d1;" GridPane.rowIndex="1">
+                                                <GridPane style="-fx-background-color: d1d1d1;" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
                                                   <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="0.0" prefWidth="0.0" />
                                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="532.0" minWidth="10.0" prefWidth="532.0" />
