@@ -14,7 +14,7 @@ public final class PricingImpl implements Pricing {
     private double baseFare = 2.50;
     private double pricePerUnitOfDistance = 1.25;
     private double pricePerUnitOfTime = 0.15;
-    DecimalFormat df = new DecimalFormat("#.####");
+    DecimalFormat df = new DecimalFormat("#.00");
 
 
     public static synchronized PricingImpl getInstance() {
@@ -32,7 +32,8 @@ public final class PricingImpl implements Pricing {
         double timeFare = Double.parseDouble(journeyTime[0])*pricePerUnitOfTime;
         double distanceFare = Double.parseDouble(journeyDistance[0])*pricePerUnitOfDistance;
         df.setRoundingMode(RoundingMode.CEILING);
-        return Double.parseDouble(df.format(baseFare+timeFare+distanceFare));
+        price = Double.parseDouble(df.format(baseFare+timeFare+distanceFare));
+        return Math.round(price * 20.0) / 20.0; //Rounding to nearest £0.05
     }
 
     public double getBaseFare() {
