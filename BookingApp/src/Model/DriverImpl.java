@@ -1,5 +1,6 @@
 package Model;
 
+import Controllers.ObservableLists;
 import Model.Interfaces.Driver;
 
 /**
@@ -17,8 +18,10 @@ public class DriverImpl implements Driver {
     public String pcoNumber;
     boolean active;
 
-    public DriverImpl() {
+    public DriverImpl(String id) {
+        this.id = id;
         Archive.allDrivers.add(this);
+        ObservableLists.driverList.add(this);
     }
 
     public String getTel() {
