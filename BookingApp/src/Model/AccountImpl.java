@@ -21,6 +21,7 @@ public class AccountImpl implements Account{
         this.id = id;
         Archive.allAccounts.add(this);
         ObservableLists.accountList.add(this);
+        ObservableLists.accountListNoCash.add(this);
     }
 
     public String getName() {
@@ -68,5 +69,10 @@ public class AccountImpl implements Account{
     @Override
     public void newBooking(Booking booking) {
         allBookings.add(booking);
+    }
+
+    @Override
+    public String toString(){
+        return this.id;
     }
 }
