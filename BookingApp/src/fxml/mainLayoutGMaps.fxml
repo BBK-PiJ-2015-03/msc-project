@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -32,510 +33,686 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
-  <children>
-    <MenuBar prefWidth="882.0" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <children>
-            <TabPane fx:id="tabPane" layoutX="35.0" layoutY="38.0" prefHeight="371.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <tabs>
-                <Tab fx:id="bookingTab" text="Booking">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <SplitPane dividerPositions="0.4299363057324841" prefHeight="338.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="342.0">
-                                       <children>
-                                          <HBox layoutX="14.0" layoutY="14.0" spacing="5.0">
-                                             <children>
-                                            <Label alignment="CENTER" style="&#10;" text="Booking:" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-                                              <font>
-                                                <Font size="18.0" />
-                                              </font>
-                                            </Label>
-                                                <Label alignment="CENTER" style="&#10;" text="#3232" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
+    <children>
+        <MenuBar prefWidth="882.0" VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" text="Revert" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <TabPane fx:id="tabPane" layoutX="35.0" layoutY="38.0" prefHeight="371.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                        <Tab fx:id="bookingTab" text="Booking">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <SplitPane dividerPositions="0.4299363057324841" prefHeight="338.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <items>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="342.0">
+                                                    <children>
+                                                        <HBox layoutX="14.0" layoutY="14.0" spacing="5.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" style="&#10;" text="Booking:" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="18.0" />
+                                                                    </font>
+                                                                </Label>
+                                                                <Label fx:id="bookingNumber" alignment="CENTER" style="&#10;" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="18.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </HBox>
+                                                        <VBox layoutX="16.0" layoutY="211.0" prefHeight="68.0" prefWidth="359.0" spacing="10.0">
+                                                            <children>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Pane prefHeight="20.0" prefWidth="4.0" />
+                                                                        <Label text="From: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingFromNumberField" prefHeight="27.0" prefWidth="40.0">
+                                                                            <HBox.margin>
+                                                                                <Insets />
+                                                                            </HBox.margin>
+                                                                        </TextField>
+                                                                        <TextField fx:id="bookingFromAddressField" onKeyPressed="#addressKeyPressed" prefHeight="27.0" prefWidth="272.0" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Pane prefHeight="27.0" prefWidth="19.0" />
+                                                                        <Label text="To: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingToNumberField" prefHeight="27.0" prefWidth="40.0" />
+                                                                        <TextField fx:id="bookingToAddressField" onKeyPressed="#addressKeyPressed" prefHeight="27.0" prefWidth="272.0">
+                                                                            <HBox.margin>
+                                                                                <Insets />
+                                                                            </HBox.margin>
+                                                                        </TextField>
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                        <Pane layoutY="47.0" maxHeight="29.0" maxWidth="300.0" prefHeight="29.0" prefWidth="299.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Vehicle &amp; Driver Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </Pane>
+                                                        <VBox layoutX="15.0" layoutY="90.0" prefHeight="64.0" prefWidth="406.0" spacing="10.0">
+                                                            <children>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Pane prefHeight="27.0" prefWidth="40.0" />
+                                                                        <Label prefHeight="17.0" text="Type: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <ComboBox fx:id="bookingVehicleType" prefWidth="120.0">
+                                                                            <items>
+                                                                                <FXCollections fx:factory="observableArrayList">
+                                                                                    <String fx:value="Saloon" />
+                                                                                    <String fx:value="Estate" />
+                                                                                    <String fx:value="Executive" />
+                                                                                    <String fx:value="7 Seater" />
+                                                                                    <String fx:value="8 Seater" />
+                                                                                </FXCollections>
+                                                                            </items>
+                                                                            <value>
+                                                                                <String fx:value="Saloon" />
+                                                                            </value>
+                                                                        </ComboBox>
+                                                                        <Pane prefHeight="27.0" prefWidth="47.0" />
+                                                                        <Label text="Date: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <DatePicker fx:id="bookingDateSelected" prefHeight="27.0" prefWidth="120.0" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Label text="Passengers: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <ComboBox fx:id="bookingPassengerNo" prefWidth="120.0">
+                                                                            <items>
+                                                                                <FXCollections fx:factory="observableArrayList">
+                                                                                    <String fx:value="1" />
+                                                                                    <String fx:value="2" />
+                                                                                    <String fx:value="3" />
+                                                                                    <String fx:value="4" />
+                                                                                    <String fx:value="5" />
+                                                                                    <String fx:value="6" />
+                                                                                    <String fx:value="7" />
+                                                                                </FXCollections>
+                                                                            </items>
+                                                                        </ComboBox>
+                                                                        <Pane prefHeight="27.0" prefWidth="46.0" />
+                                                                        <Label text="Time: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingTimeSelected" onKeyPressed="#timeFieldValidation" prefHeight="27.0" prefWidth="120.0" />
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                        <Pane layoutY="168.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Journey Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                                <Label alignment="CENTER" layoutX="162.0" layoutY="7.0" style="&#10;" text="(Type postcode and press enter)" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="12.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </Pane>
+                                                        <Pane layoutY="287.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Passenger Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </Pane>
+                                                        <VBox layoutX="16.0" layoutY="329.0" prefHeight="101.0" prefWidth="355.0" spacing="10.0">
+                                                            <children>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Label text="Name: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingPassengerNameField" prefHeight="27.0" prefWidth="312.0">
+                                                                            <HBox.margin>
+                                                                                <Insets />
+                                                                            </HBox.margin>
+                                                                        </TextField>
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Pane prefHeight="27.0" prefWidth="17.0" />
+                                                                        <Label text="Tel: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingPassengerTelField" prefHeight="27.0" prefWidth="312.0">
+                                                                            <HBox.margin>
+                                                                                <Insets />
+                                                                            </HBox.margin>
+                                                                        </TextField>
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Pane prefHeight="27.0" prefWidth="3.0" />
+                                                                        <Label text="Email: ">
+                                                                            <HBox.margin>
+                                                                                <Insets top="5.0" />
+                                                                            </HBox.margin>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingPassengerEmailField" prefHeight="27.0" prefWidth="312.0">
+                                                                            <HBox.margin>
+                                                                                <Insets />
+                                                                            </HBox.margin>
+                                                                        </TextField>
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                        <Pane layoutX="-2.0" layoutY="439.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Comments" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </Pane>
+                                                        <VBox layoutX="16.0" layoutY="476.0">
+                                                            <children>
+                                                                <Label text="Comments:" />
+                                                                <TextArea fx:id="bookingCommentsField" prefHeight="4.0" prefWidth="355.0" />
+                                                            </children>
+                                                        </VBox>
+                                                        <Pane layoutY="545.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Pricing" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </Pane>
+                                                        <HBox layoutX="16.0" layoutY="595.0" prefHeight="27.0" prefWidth="355.0" spacing="10.0">
+                                                            <children>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <Label text="£">
+                                                                            <HBox.margin>
+                                                                                <Insets top="2.0" />
+                                                                            </HBox.margin>
+                                                                            <font>
+                                                                                <Font size="18.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                        <TextField fx:id="bookingPriceField" prefHeight="27.0" prefWidth="200.0" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <Button fx:id="bookingAcceptButton" onAction="#bookingAcceptButtonFired" mnemonicParsing="false" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
+                                                                <Button fx:id="bookingCancelButton" onAction="#bookingCancelButtonFired" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancel" textFill="WHITE" />
+                                                            </children>
+                                                        </HBox>
+                                                        <Button contentDisplay="GRAPHIC_ONLY" layoutX="379.0" layoutY="223.0" mnemonicParsing="false" onAction="#calculateRouteButtonFired" prefHeight="45.0" prefWidth="56.0" />
+                                                        <ImageView fitHeight="150.0" fitWidth="40.0" layoutX="387.0" layoutY="225.0" onMouseClicked="#calculateRouteButtonFired" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@../icons/reload.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <HBox layoutX="204.0" layoutY="12.0">
+                                                            <children>
+                                                                <Label text="Cash/Account: ">
+                                                                    <HBox.margin>
+                                                                        <Insets top="5.0" />
+                                                                    </HBox.margin>
+                                                                </Label>
+                                                                <ComboBox fx:id="bookingAccountOrCash" prefWidth="120.0" value="Saloon">
+                                                                    <items>
+                                                                        <FXCollections fx:factory="observableArrayList">
+                                                                            <String fx:value="Saloon" />
+                                                                            <String fx:value="Estate" />
+                                                                            <String fx:value="Executive" />
+                                                                            <String fx:value="7 Seater" />
+                                                                            <String fx:value="8 Seater" />
+                                                                        </FXCollections>
+                                                                    </items>
+                                                                </ComboBox>
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </AnchorPane>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                    <children>
+                                                        <GridPane layoutX="100.0" layoutY="153.0" prefHeight="656.0" prefWidth="579.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                            <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                            </columnConstraints>
+                                                            <rowConstraints>
+                                                                <RowConstraints maxHeight="503.0" minHeight="10.0" prefHeight="497.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
+                                                            </rowConstraints>
+                                                            <children>
+                                                                <GridPane style="-fx-background-color: d1d1d1;" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                                                                    <columnConstraints>
+                                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="0.0" prefWidth="0.0" />
+                                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="532.0" minWidth="10.0" prefWidth="532.0" />
+                                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="0.0" prefWidth="0.0" />
+                                                                    </columnConstraints>
+                                                                    <rowConstraints>
+                                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                    </rowConstraints>
+                                                                    <children>
+                                                                        <AnchorPane prefHeight="159.0" prefWidth="655.0" style="-fx-background-color: d1d1d1;" GridPane.columnIndex="1">
+                                                                            <children>
+                                                                                <VBox alignment="CENTER_LEFT" layoutX="44.0" layoutY="14.0" prefHeight="159.0" prefWidth="536.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                    <children>
+                                                                                        <HBox alignment="CENTER_LEFT" spacing="180.0">
+                                                                                            <children>
+                                                                                                <Label fx:id="journeyDistanceLabel">
+                                                                                                    <font>
+                                                                                                        <Font name="System Bold" size="16.0" />
+                                                                                                    </font>
+                                                                                                </Label>
+                                                                                                <Label fx:id="journeyDurationLabel">
+                                                                                                    <font>
+                                                                                                        <Font name="System Bold" size="16.0" />
+                                                                                                    </font>
+                                                                                                </Label>
+                                                                                            </children>
+                                                                                        </HBox>
+                                                                                        <Label fx:id="journeyPickupFromLabel" alignment="CENTER">
+                                                                                            <font>
+                                                                                                <Font size="16.0" />
+                                                                                            </font>
+                                                                                        </Label>
+                                                                                        <Label fx:id="journeyClosestDriverLabel" text="Driver [22] is the closest driver to the pickup: 6 min / 1.3km away">
+                                                                                            <font>
+                                                                                                <Font size="16.0" />
+                                                                                            </font>
+                                                                                        </Label>
+                                                                                    </children>
+                                                                                </VBox>
+                                                                            </children>
+                                                                        </AnchorPane>
+                                                                    </children>
+                                                                </GridPane>
+                                                                <GoogleMapView fx:id="mapView" layoutX="-41.0" layoutY="72.0" prefHeight="336.0" prefWidth="281.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            </children>
+                                                        </GridPane>
+                                                    </children>
+                                                </AnchorPane>
+                                            </items>
+                                        </SplitPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="dispatchTab" text="Dispatch">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <VBox alignment="CENTER" layoutX="19.0" layoutY="20.0" prefHeight="638.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                            <children>
+                                                <Pane prefHeight="68.0" prefWidth="660.0" style="-fx-background-color: #E1E1E1;" VBox.vgrow="NEVER">
+                                                    <children>
+                                                        <HBox layoutX="14.0" layoutY="15.0" spacing="10.0">
+                                                            <children>
+                                                                <Label text="Overall Queue &gt;">
+                                                                    <font>
+                                                                        <Font name="System Bold" size="14.0" />
+                                                                    </font>
+                                                                    <HBox.margin>
+                                                                        <Insets />
+                                                                    </HBox.margin>
+                                                                    <padding>
+                                                                        <Insets top="10.0" />
+                                                                    </padding>
+                                                                </Label>
+                                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
+                                                                    <children>
+                                                                        <Label layoutX="14.0" layoutY="8.0" text="22" textFill="WHITE">
+                                                                            <font>
+                                                                                <Font size="18.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
+                                                                    <children>
+                                                                        <Label layoutX="14.0" layoutY="8.0" text="15" textFill="WHITE">
+                                                                            <font>
+                                                                                <Font size="18.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
+                                                                    <children>
+                                                                        <Label layoutX="14.0" layoutY="8.0" text="03" textFill="WHITE">
+                                                                            <font>
+                                                                                <Font size="18.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: red;">
+                                                                    <children>
+                                                                        <Label layoutX="14.0" layoutY="8.0" text="42" textFill="WHITE">
+                                                                            <font>
+                                                                                <Font size="18.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
+                                                                    <children>
+                                                                        <Label layoutX="14.0" layoutY="8.0" text="18" textFill="WHITE">
+                                                                            <font>
+                                                                                <Font size="18.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </Pane>
+                                                <TableView fx:id="bookingTableView" prefHeight="494.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
+                                                    <columns>
+                                                        <TableColumn fx:id="timeCol" prefWidth="75.0" text="Time" />
+                                                        <TableColumn fx:id="nameCol" prefWidth="120.0" text="Name" />
+                                                        <TableColumn fx:id="pickUpCol" minWidth="30.0" prefWidth="250.0" text="Pickup" />
+                                                        <TableColumn fx:id="dropOffCol" prefWidth="250.0" text="Destination" />
+                                                        <TableColumn fx:id="commentCol" prefWidth="213.0" text="Comment" />
+                                                        <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </VBox>
+                                    </children></AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="liveMapTab" text="Live Map">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <!--<GoogleMapView fx:id="mapView" layoutX="-41.0" layoutY="72.0" prefHeight="336.0" prefWidth="281.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
+                                        <!--<VBox alignment="TOP_CENTER" fillWidth="false" layoutX="26.0" layoutY="29.0" prefHeight="478.0" prefWidth="221.0" spacing="10.0" styleClass="panel-background" stylesheets="@../styles/Styles.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="88.0" BorderPane.alignment="CENTER"></VBox>-->
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="driversTab" text="Drivers">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <AnchorPane layoutX="205.0" layoutY="14.0" prefHeight="614.0" prefWidth="752.0" style="-fx-background-color: f1f1f1;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="14.0" />
+                                        <ListView fx:id="driverTabList" layoutX="33.0" layoutY="18.0" prefHeight="619.0" prefWidth="205.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                                        <Pane layoutX="205.0" layoutY="14.0" maxHeight="29.0" maxWidth="820.0" prefHeight="29.0" prefWidth="752.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="210.0">
+                                            <children>
+                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Driver Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                    <font>
+                                                        <Font size="15.0" />
+                                                    </font>
                                                 </Label>
-                                             </children>
-                                          </HBox>
-                                          <VBox layoutX="16.0" layoutY="211.0" prefHeight="68.0" prefWidth="359.0" spacing="10.0">
-                                             <children>
-                                                <HBox>
-                                                   <children>
-                                                      <Pane prefHeight="20.0" prefWidth="4.0" />
-                                                      <Label text="From: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="bookingFromNumberField" prefHeight="27.0" prefWidth="40.0">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </TextField>
-                                                      <TextField fx:id="bookingFromAddressField" onKeyPressed="#addressKeyPressed" prefHeight="27.0" prefWidth="272.0" />
-                                                   </children>
-                                                </HBox>
-                                                <HBox>
-                                                   <children>
-                                                      <Pane prefHeight="27.0" prefWidth="19.0" />
-                                                      <Label text="To: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="bookingToNumberField" prefHeight="27.0" prefWidth="40.0" />
-                                                      <TextField fx:id="bookingToAddressField" onKeyPressed="#addressKeyPressed" prefHeight="27.0" prefWidth="272.0">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </TextField>
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Pane layoutY="47.0" maxHeight="29.0" maxWidth="300.0" prefHeight="29.0" prefWidth="299.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                             <children>
-                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Vehicle &amp; Driver Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </Pane>
-                                          <VBox layoutX="15.0" layoutY="90.0" prefHeight="64.0" prefWidth="406.0" spacing="10.0">
-                                             <children>
-                                                <HBox>
-                                                   <children>
-                                                      <Pane prefHeight="27.0" prefWidth="40.0" />
-                                                      <Label prefHeight="17.0" text="Type: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <ComboBox fx:id="bookingVehicleType" prefWidth="120.0">
-                                                          <items>
-                                                              <FXCollections fx:factory="observableArrayList">
-                                                                  <String fx:value="Saloon" />
-                                                                  <String fx:value="Estate" />
-                                                                  <String fx:value="Executive" />
-                                                                  <String fx:value="7 Seater" />
-                                                                  <String fx:value="8 Seater" />
-                                                              </FXCollections>
-                                                          </items>
-                                                          <value>
-                                                              <String fx:value="Saloon" />
-                                                          </value>
-                                                      </ComboBox>
-                                                      <Pane prefHeight="27.0" prefWidth="47.0" />
-                                                      <Label text="Date: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <DatePicker fx:id="bookingDateSelected" prefHeight="27.0" prefWidth="120.0" />
-                                                   </children>
-                                                </HBox>
-                                                <HBox>
-                                                   <children>
-                                                      <Label text="Passengers: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                       <ComboBox fx:id="bookingPassengerNo" prefWidth="120.0">
-                                                           <items>
-                                                               <FXCollections fx:factory="observableArrayList">
-                                                                   <String fx:value="1" />
-                                                                   <String fx:value="2" />
-                                                                   <String fx:value="3" />
-                                                                   <String fx:value="4" />
-                                                                   <String fx:value="5" />
-                                                                   <String fx:value="6" />
-                                                                   <String fx:value="7" />
-                                                               </FXCollections>
-                                                           </items>
-                                                           <value>
-                                                               <String fx:value="1" />
-                                                           </value>
-                                                       </ComboBox>
-                                                      <Pane prefHeight="27.0" prefWidth="46.0" />
-                                                      <Label text="Time: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="bookingTimeSelected" onKeyPressed="#timeFieldValidation" prefHeight="27.0" prefWidth="120.0" text="NOW" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Pane layoutY="168.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                             <children>
-                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Journey Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" layoutX="162.0" layoutY="7.0" style="&#10;" text="(Type postcode and press enter)" textAlignment="CENTER" textFill="#515050" wrapText="false">
-                                                   <font>
-                                                      <Font size="12.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </Pane>
-                                          <Pane layoutY="287.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                             <children>
-                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Passenger Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </Pane>
-                                          <VBox layoutX="16.0" layoutY="329.0" prefHeight="101.0" prefWidth="355.0" spacing="10.0">
-                                             <children>
-                                                <HBox>
-                                                   <children>
-                                                      <Label text="Name: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="bookingPassengerNameField" prefHeight="27.0" prefWidth="312.0">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </TextField>
-                                                   </children>
-                                                </HBox>
-                                                <HBox>
-                                                   <children>
-                                                      <Pane prefHeight="27.0" prefWidth="17.0" />
-                                                      <Label text="Tel: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="bookingPassengerTelField" prefHeight="27.0" prefWidth="312.0">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </TextField>
-                                                   </children>
-                                                </HBox>
-                                                <HBox>
-                                                   <children>
-                                                      <Pane prefHeight="27.0" prefWidth="3.0" />
-                                                      <Label text="Email: ">
-                                                         <HBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </HBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="bookingPassengerEmailField" prefHeight="27.0" prefWidth="312.0">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </TextField>
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Pane layoutX="-2.0" layoutY="439.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                             <children>
-                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Comments" textAlignment="CENTER" textFill="#515050" wrapText="false">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </Pane>
-                                          <VBox layoutX="16.0" layoutY="476.0">
-                                             <children>
-                                                <Label text="Comments:" />
-                                                <TextArea fx:id="bookingCommentsField" prefHeight="4.0" prefWidth="355.0" />
-                                             </children>
-                                          </VBox>
-                                          <Pane layoutY="545.0" maxHeight="29.0" prefHeight="29.0" prefWidth="229.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                             <children>
-                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Pricing" textAlignment="CENTER" textFill="#515050" wrapText="false">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </Pane>
-                                          <HBox layoutX="16.0" layoutY="595.0" prefHeight="27.0" prefWidth="355.0" spacing="10.0">
-                                             <children>
-                                                <HBox>
-                                                   <children>
-                                                      <Label text="£">
-                                                         <HBox.margin>
-                                                            <Insets top="2.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <TextField fx:id="bookingPriceField" prefHeight="27.0" prefWidth="200.0" />
-                                                   </children>
-                                                </HBox>
-                                                <Button fx:id="bookingAcceptButton" mnemonicParsing="false" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
-                                                <Button fx:id="bookingCancelButton" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancel" textFill="WHITE" />
-                                             </children>
-                                          </HBox>
-                                          <Button contentDisplay="GRAPHIC_ONLY" layoutX="379.0" layoutY="223.0" mnemonicParsing="false" onAction="#calculateRouteButtonFired" prefHeight="45.0" prefWidth="56.0" />
-                                          <ImageView fitHeight="150.0" fitWidth="40.0" layoutX="387.0" layoutY="225.0" onMouseClicked="#calculateRouteButtonFired" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../icons/reload.png" />
-                                             </image>
-                                          </ImageView>
-                                          <HBox layoutX="204.0" layoutY="12.0">
-                                             <children>
-                                                <Label text="Cash/Account: ">
-                                                   <HBox.margin>
-                                                      <Insets top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <ComboBox fx:id="bookingAccountOrCash" prefWidth="120.0" value="Saloon">
-                                                   <items>
-                                                      <FXCollections fx:factory="observableArrayList">
-                                                         <String fx:value="Saloon" />
-                                                         <String fx:value="Estate" />
-                                                         <String fx:value="Executive" />
-                                                         <String fx:value="7 Seater" />
-                                                         <String fx:value="8 Seater" />
-                                                      </FXCollections>
-                                                   </items>
-                                                </ComboBox>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                       <children>
-                                          <GridPane layoutX="100.0" layoutY="153.0" prefHeight="656.0" prefWidth="579.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <Button fx:id="driverTabDeleteButton" layoutX="643.0" layoutY="1.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Delete" textFill="WHITE" />
+                                            </children>
+                                        </Pane>
+                                        <GridPane layoutX="205.0" layoutY="60.0" prefHeight="251.0" prefWidth="816.0" AnchorPane.leftAnchor="213.0">
                                             <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="86.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="0.0" prefWidth="252.0" />
+                                                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="107.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="253.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="118.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                              <RowConstraints maxHeight="503.0" minHeight="10.0" prefHeight="497.0" vgrow="SOMETIMES" />
-                                              <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
-                                             <children>
-                                                <GridPane style="-fx-background-color: d1d1d1;" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-                                                  <columnConstraints>
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="0.0" prefWidth="0.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="532.0" minWidth="10.0" prefWidth="532.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="0.0" prefWidth="0.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
-                                                   <children>
-                                                      <AnchorPane prefHeight="159.0" prefWidth="655.0" style="-fx-background-color: d1d1d1;" GridPane.columnIndex="1">
-                                                         <children>
-                                                            <VBox alignment="CENTER_LEFT" layoutX="44.0" layoutY="14.0" prefHeight="159.0" prefWidth="536.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                               <children>
-                                                                  <HBox alignment="CENTER_LEFT" spacing="180.0">
-                                                                     <children>
-                                                                        <Label fx:id="journeyDistanceLabel">
-                                                                           <font>
-                                                                              <Font name="System Bold" size="16.0" />
-                                                                           </font>
-                                                                        </Label>
-                                                                        <Label fx:id="journeyDurationLabel">
-                                                                           <font>
-                                                                              <Font name="System Bold" size="16.0" />
-                                                                           </font>
-                                                                        </Label>
-                                                                     </children>
-                                                                  </HBox>
-                                                                  <Label fx:id="journeyPickupFromLabel" alignment="CENTER">
-                                                                     <font>
-                                                                        <Font size="16.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Label fx:id="journeyClosestDriverLabel" text="Driver [22] is the closest driver to the pickup: 6 min / 1.3km away">
-                                                                     <font>
-                                                                        <Font size="16.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                               </children>
-                                                            </VBox>
-                                                         </children>
-                                                      </AnchorPane>
-                                                   </children>
-                                                </GridPane>
-                                                 <GoogleMapView fx:id="mapView" layoutX="-41.0" layoutY="72.0" prefHeight="336.0" prefWidth="281.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </AnchorPane>
-                                </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab fx:id="dispatchTab" text="Dispatch">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <VBox alignment="CENTER" layoutX="19.0" layoutY="20.0" prefHeight="638.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-                                 <children>
-                                    <Pane prefHeight="68.0" prefWidth="660.0" style="-fx-background-color: #E1E1E1;" VBox.vgrow="NEVER">
-                                       <children>
-                                          <HBox layoutX="14.0" layoutY="15.0" spacing="10.0">
-                                             <children>
-                                                <Label text="Overall Queue &gt;">
-                                                   <font>
-                                                      <Font name="System Bold" size="14.0" />
-                                                   </font>
-                                                   <HBox.margin>
-                                                      <Insets />
-                                                   </HBox.margin>
-                                                   <padding>
-                                                      <Insets top="10.0" />
-                                                   </padding>
+                                            <children>
+                                                <Label text="Name: " />
+                                                <Label text="ID: " GridPane.rowIndex="1" />
+                                                <Label text="Address: " GridPane.rowIndex="2" />
+                                                <Label text="Phone: " GridPane.rowIndex="3" />
+                                                <TextField fx:id="driverNameField" GridPane.columnIndex="1" />
+                                                <TextField fx:id="driverIdField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <TextField fx:id="driverAddressField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <TextField fx:id="driverPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label text="Pin: " GridPane.columnIndex="2" />
+                                                <Label text="NIS: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                <Label text="PCO #: " GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                                <Label text="PCO: " GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                                <TextField fx:id="driverPinField" GridPane.columnIndex="3" />
+                                                <TextField fx:id="driverNisField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                                <TextField fx:id="driverPcoNoField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                                <DatePicker fx:id="driverPcoDateField" prefHeight="27.0" prefWidth="253.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                            </children>
+                                        </GridPane>
+                                        <Pane layoutX="205.0" layoutY="329.0" maxHeight="29.0" maxWidth="820.0" prefHeight="29.0" prefWidth="752.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="210.0">
+                                            <children>
+                                                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Vehicle Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                                    <font>
+                                                        <Font size="15.0" />
+                                                    </font>
                                                 </Label>
-                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
-                                                   <children>
-                                                      <Label layoutX="14.0" layoutY="8.0" text="22" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
-                                                   <children>
-                                                      <Label layoutX="14.0" layoutY="8.0" text="15" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
-                                                   <children>
-                                                      <Label layoutX="14.0" layoutY="8.0" text="03" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: red;">
-                                                   <children>
-                                                      <Label layoutX="14.0" layoutY="8.0" text="42" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: green;">
-                                                   <children>
-                                                      <Label layoutX="14.0" layoutY="8.0" text="18" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </Pane>
-                                    <TableView prefHeight="494.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
-                                      <columns>
-                                        <TableColumn prefWidth="75.0" text="Time" />
-                                        <TableColumn prefWidth="120.0" text="Name" />
-                                          <TableColumn minWidth="30.0" prefWidth="250.0" text="Pickup" />
-                                          <TableColumn prefWidth="250.0" text="Destination" />
-                                          <TableColumn prefWidth="213.0" text="Comment" />
-                                          <TableColumn prefWidth="75.0" text="Price" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </VBox>
-                           </children></AnchorPane>
-                  </content>
-                </Tab>
-                  <Tab fx:id="liveMapTab" text="Live Map">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            </children>
+                                        </Pane>
+                                        <GridPane layoutX="205.0" layoutY="378.0" prefHeight="220.0" prefWidth="816.0" AnchorPane.leftAnchor="213.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="89.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="0.0" prefWidth="249.0" />
+                                                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="107.0" />
+                                                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="253.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="118.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <Label text="Registration: " />
+                                                <Label text="Colour: " GridPane.rowIndex="1" />
+                                                <Label text="Type: " GridPane.rowIndex="2" />
+                                                <TextField fx:id="vehicleRegistrationField" GridPane.columnIndex="1" />
+                                                <TextField fx:id="vehicleColourField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <TextField fx:id="vehicleTypeField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label text="MOT: " GridPane.columnIndex="2" />
+                                                <Label text="Insurance: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                <Label text="PCO: " GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                                <DatePicker fx:id="vehicleMotDateField" prefHeight="27.0" prefWidth="259.0" GridPane.columnIndex="3" />
+                                                <DatePicker fx:id="vehicleInsuranceDateField" prefHeight="27.0" prefWidth="253.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                                <DatePicker fx:id="vehiclePcoDateField" prefHeight="27.0" prefWidth="267.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                                <HBox prefHeight="55.0" prefWidth="158.0" spacing="15.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                                                    <children>
+                                                        <Button fx:id="driverTabSaveButton" mnemonicParsing="false" text="Save">
+                                                            <HBox.margin>
+                                                                <Insets top="20.0" />
+                                                            </HBox.margin>
+                                                        </Button>
+                                                        <Button fx:id="driverTabCancelButton" mnemonicParsing="false" text="Cancel">
+                                                            <HBox.margin>
+                                                                <Insets top="20.0" />
+                                                            </HBox.margin>
+                                                        </Button>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="130.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </children>
+                                        </GridPane>
+                                        <HBox layoutY="623.0" prefHeight="36.0" prefWidth="205.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="5.0">
+                                            <children>
+                                                <TextField fx:id="addNewDriverField" prefHeight="36.0" prefWidth="130.0" />
+                                                <Button fx:id="addNewDriverButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="74.0" text="Add">
+                                                    <padding>
+                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="8.0" />
+                                                    </padding>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children></AnchorPane>
+                                <!--<fx:include source="driverTab.fxml"/>-->
+                            </content>
+                        </Tab>
+                        <Tab fx:id="accountsTab" text="Accounts">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                               <!--<GoogleMapView fx:id="mapView" layoutX="-41.0" layoutY="72.0" prefHeight="336.0" prefWidth="281.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
-                               <!--<VBox alignment="TOP_CENTER" fillWidth="false" layoutX="26.0" layoutY="29.0" prefHeight="478.0" prefWidth="221.0" spacing="10.0" styleClass="panel-background" stylesheets="@../styles/Styles.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="88.0" BorderPane.alignment="CENTER"></VBox>-->
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
-                  <Tab fx:id="driversTab" disable="true" text="Drivers">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                     </content>
-                  </Tab>
-                  <Tab fx:id="accountsTab" disable="true" text="Accounts">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-                  <Tab fx:id="pricingTab" disable="true" text="Pricing">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                     </content>
-                  </Tab>
-                  <Tab fx:id="settingsTab" disable="true" text="Settings">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                     </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-      </children>
-    </AnchorPane>
-  </children>
+                              <ListView fx:id="accountTabList" prefHeight="619.0" prefWidth="205.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                              <Pane layoutX="210.0" layoutY="14.0" maxHeight="29.0" maxWidth="820.0" prefHeight="29.0" prefWidth="403.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="210.0">
+                                 <children>
+                                    <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Driver Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="accountTabDeleteButton" layoutX="282.0" layoutY="1.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Delete" textFill="WHITE" />
+                                 </children>
+                              </Pane>
+                              <GridPane layoutX="210.0" layoutY="62.0" prefHeight="342.0" prefWidth="816.0" AnchorPane.leftAnchor="210.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="90.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="0.0" prefWidth="260.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="95.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="253.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="118.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Name: " />
+                                    <Label text="ID:  " GridPane.rowIndex="1" />
+                                    <Label text="Address: " GridPane.rowIndex="2" />
+                                    <TextField fx:id="accountNameField" GridPane.columnIndex="1" />
+                                    <TextField fx:id="accountIdField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="accountAddressField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="accountPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Phone: " GridPane.rowIndex="3" />
+                                    <HBox prefHeight="55.0" prefWidth="158.0" spacing="15.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                                       <children>
+                                          <Button fx:id="accountTabSaveButton" mnemonicParsing="false" text="Save">
+                                             <HBox.margin>
+                                                <Insets top="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="accountTabCancelButton" mnemonicParsing="false" text="Cancel">
+                                             <HBox.margin>
+                                                <Insets top="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets left="136.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                              <HBox prefHeight="36.0" prefWidth="205.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="5.0">
+                                 <children>
+                                    <TextField fx:id="addNewAccountField" prefHeight="36.0" prefWidth="130.0" />
+                                    <Button fx:id="addNewAccountButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="74.0" text="Add">
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="8.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children></AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="pricingTab" disable="true" text="Pricing">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            </content>
+                        </Tab>
+                        <Tab fx:id="settingsTab" disable="true" text="Settings">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>
