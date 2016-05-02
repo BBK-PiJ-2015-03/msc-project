@@ -1,7 +1,6 @@
 package resources.gmapsfx;
 
 import javafx.application.Application;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -10,7 +9,10 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import resources.gmapsfx.javascript.object.*;
-import resources.gmapsfx.service.directions.*;
+import resources.gmapsfx.service.directions.DirectionStatus;
+import resources.gmapsfx.service.directions.DirectionsRenderer;
+import resources.gmapsfx.service.directions.DirectionsResult;
+import resources.gmapsfx.service.directions.DirectionsServiceCallback;
 import resources.gmapsfx.service.elevation.ElevationResult;
 import resources.gmapsfx.service.elevation.ElevationServiceCallback;
 import resources.gmapsfx.service.elevation.ElevationStatus;
@@ -103,30 +105,92 @@ public class MainApp extends Application implements MapComponentInitializedListe
     DirectionsRenderer renderer;
     
     @Override
-    public void mapInitialized() {
-        //Once the map has been loaded by the Webview, initialize the map details.
-        LatLong center = new LatLong(47.606189, -122.335842);
-        mapComponent.addMapReadyListener(() -> {
-            // This call will fail unless the map is completely ready.
-            checkCenter(center);
-        });
-        
-        MapOptions options = new MapOptions();
-        options.center(center)
-                .mapMarker(true)
-                .zoom(9)
+    public void mapInitialized() { LatLong joeSmithLocation = new LatLong(47.6197, -122.3231);
+        LatLong joshAndersonLocation = new LatLong(47.6297, -122.3431);
+        LatLong bobUnderwoodLocation = new LatLong(47.6397, -122.3031);
+        LatLong tomChoiceLocation = new LatLong(47.6497, -122.3325);
+        LatLong fredWilkieLocation = new LatLong(47.6597, -122.3357);
+
+
+        //Set the initial properties of the map.
+        MapOptions mapOptions = new MapOptions();
+
+        mapOptions.center(new LatLong(47.6097, -122.3331))
+                .mapType(MapTypeIdEnum.ROADMAP)
                 .overviewMapControl(false)
                 .panControl(false)
                 .rotateControl(false)
                 .scaleControl(false)
                 .streetViewControl(false)
                 .zoomControl(false)
-                .mapType(MapTypeIdEnum.TERRAIN);
+                .zoom(12);
 
-        map = mapComponent.createMap(options);
-        directions = mapComponent.getDirec();
-        
-        map.setHeading(123.2);
+        map = mapComponent.createMap(mapOptions);
+
+        //Add markers to the map
+        MarkerOptions markerOptions1 = new MarkerOptions();
+        markerOptions1.position(joeSmithLocation);
+
+        MarkerOptions markerOptions2 = new MarkerOptions();
+        markerOptions2.position(joshAndersonLocation);
+
+        MarkerOptions markerOptions3 = new MarkerOptions();
+        markerOptions3.position(bobUnderwoodLocation);
+
+        MarkerOptions markerOptions4 = new MarkerOptions();
+        markerOptions4.position(tomChoiceLocation);
+
+        MarkerOptions markerOptions5 = new MarkerOptions();
+        markerOptions5.position(fredWilkieLocation);
+
+        Marker joeSmithMarker = new Marker(markerOptions1);
+        Marker joshAndersonMarker = new Marker(markerOptions2);
+        Marker bobUnderwoodMarker = new Marker(markerOptions3);
+        Marker tomChoiceMarker= new Marker(markerOptions4);
+        Marker fredWilkieMarker = new Marker(markerOptions5);
+
+        map.addMarker( joeSmithMarker );
+        map.addMarker( joshAndersonMarker );
+        map.addMarker( bobUnderwoodMarker );
+        map.addMarker( tomChoiceMarker );
+        map.addMarker( fredWilkieMarker );
+
+        InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
+        infoWindowOptions.content("<h2>Fred Wilkie</h2>"
+                + "Current Location: Safeway<br>"
+                + "ETA: 45 minutes" );
+        InfoWindowOptions infoWindowOptions2 = new InfoWindowOptions();
+        infoWindowOptions.content("<h2>Fred Wilkie</h2>"
+                + "Current Location: Safeway<br>"
+                + "ETA: 45 minutes" );
+        InfoWindow fredWilkeInfoWindow = new InfoWindow(infoWindowOptions);
+        fredWilkeInfoWindow.open(map, fredWilkieMarker);
+        fredWilkeInfoWindow.close();
+
+//
+//        //Once the map has been loaded by the Webview, initialize the map details.
+//        LatLong center = new LatLong(47.606189, -122.335842);
+//        mapComponent.addMapReadyListener(() -> {
+//            // This call will fail unless the map is completely ready.
+//            checkCenter(center);
+//        });
+//
+//        MapOptions options = new MapOptions();
+//        options.center(center)
+//                .mapMarker(true)
+//                .zoom(9)
+//                .overviewMapControl(false)
+//                .panControl(false)
+//                .rotateControl(false)
+//                .scaleControl(false)
+//                .streetViewControl(false)
+//                .zoomControl(false)
+//                .mapType(MapTypeIdEnum.TERRAIN);
+//
+//        map = mapComponent.createMap(options);
+//        directions = mapComponent.getDirec();
+//
+//        map.setHeading(123.2);
 //        System.out.println("Heading is: " + map.getHeading() );
 
 //        MarkerOptions markerOptions = new MarkerOptions();
@@ -157,18 +221,18 @@ public class MainApp extends Application implements MapComponentInitializedListe
 //        window.open(map, myMarker);
         
         
-        map.fitBounds(new LatLongBounds(new LatLong(30, 120), center));
-//        System.out.println("Bounds : " + map.getBounds());
-
-        lblCenter.setText(map.getCenter().toString());
-        map.centerProperty().addListener((ObservableValue<? extends LatLong> obs, LatLong o, LatLong n) -> {
-            lblCenter.setText(n.toString());
-        });
-
-        lblZoom.setText(Integer.toString(map.getZoom()));
-        map.zoomProperty().addListener((ObservableValue<? extends Number> obs, Number o, Number n) -> {
-            lblZoom.setText(n.toString());
-        });
+//        map.fitBounds(new LatLongBounds(new LatLong(30, 120), center));
+////        System.out.println("Bounds : " + map.getBounds());
+//
+//        lblCenter.setText(map.getCenter().toString());
+//        map.centerProperty().addListener((ObservableValue<? extends LatLong> obs, LatLong o, LatLong n) -> {
+//            lblCenter.setText(n.toString());
+//        });
+//
+//        lblZoom.setText(Integer.toString(map.getZoom()));
+//        map.zoomProperty().addListener((ObservableValue<? extends Number> obs, Number o, Number n) -> {
+//            lblZoom.setText(n.toString());
+//        });
 
 //      map.addStateEventHandler(MapStateEventType.center_changed, () -> {
 //			System.out.println("center_changed: " + map.getCenter());
@@ -233,31 +297,31 @@ public class MainApp extends Application implements MapComponentInitializedListe
 //                .strokeWeight(2)
 //                .fillColor("orange")
 //                .fillOpacity(0.3);
-
+//
 //        Circle c = new Circle(cOpts);
 //        map.addMapShape(c);
 //        map.addUIEventHandler(c, UIEventType.click, (JSObject obj) -> {
 //            c.setEditable(!c.getEditable());
 //        });
-
+//
 //        LatLongBounds llb = new LatLongBounds(new LatLong(47.533893, -122.89856), new LatLong(47.580694, -122.80312));
 //        RectangleOptions rOpts = new RectangleOptions()
 //                .bounds(llb)
 //                .strokeColor("black")
 //                .strokeWeight(2)
 //                .fillColor("null");
-
+//
 //        Rectangle rt = new Rectangle(rOpts);
 //        map.addMapShape(rt);
-
+//
 //        LatLong arcC = new LatLong(47.227029, -121.81641);
 //        double startBearing = 0;
 //        double endBearing = 30;
 //        double radius = 30000;
-
+//
 //        MVCArray path = ArcBuilder.buildArcPoints(arcC, startBearing, endBearing, radius);
 //        path.push(arcC);
-
+//
 //        Polygon arc = new Polygon(new PolygonOptions()
 //                .paths(path)
 //                .strokeColor("blue")
@@ -265,7 +329,7 @@ public class MainApp extends Application implements MapComponentInitializedListe
 //                .fillOpacity(0.3)
 //                .strokeWeight(2)
 //                .editable(false));
-
+//
 //        map.addMapShape(arc);
 //        map.addUIEventHandler(arc, UIEventType.click, (JSObject obj) -> {
 //            arc.setEditable(!arc.getEditable());
@@ -274,17 +338,17 @@ public class MainApp extends Application implements MapComponentInitializedListe
 //        GeocodingService gs = new GeocodingService();
         
         
-        DirectionsService ds = new DirectionsService();
-        renderer = new DirectionsRenderer(true, map, directions);
+//        DirectionsService ds = new DirectionsService();
+//        renderer = new DirectionsRenderer(true, map, directions);
         
 //        DirectionsWaypoint[] dw = new DirectionsWaypoint[2];
 //        dw[0] = new DirectionsWaypoint("address");
         
-        DirectionsRequest dr = new DirectionsRequest(
-                "n16 6lh",
-                "e5 8au",
-                TravelModes.DRIVING);
-        ds.getRoute(dr, this, renderer);
+//        DirectionsRequest dr = new DirectionsRequest(
+//                "n16 6lh",
+//                "e5 8au",
+//                TravelModes.DRIVING);
+//        ds.getRoute(dr, this, renderer);
         
 //        LatLong[] location = new LatLong[1];
 //        location[0] = new LatLong(-19.744056, -43.958699);
@@ -359,6 +423,7 @@ public class MainApp extends Application implements MapComponentInitializedListe
 
     @Override
     public void directionsReceived(DirectionsResult results, DirectionStatus status) {
+
 //        if(status.equals(DirectionStatus.OK)){
 //
 //            System.out.println("OK");
