@@ -4,9 +4,12 @@ import Utils.TimeFieldValidator;
 import Utils.XmlParser;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Callback;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,6 +17,7 @@ import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Methods for booking tab will be passed through here
@@ -55,6 +59,20 @@ public class KeyEventController {
                 ((TextField)event.getSource()).setText(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime()));
             }
         }
+    }
+
+    public Date currentTimePlusFiveMinutes(){
+        Date d = Calendar.getInstance().getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, 5);
+        return cal.getTime();
+    }
+
+    public void runLateBookingMonitor(TableView table){
+        Callback<TableView, TableRow> tableRows = table.getRowFactory();
+//        for (TableRow t:tableRows.call(table)) {
+//        }
     }
 
 }
