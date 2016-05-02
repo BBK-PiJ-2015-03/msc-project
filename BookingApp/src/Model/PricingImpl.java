@@ -11,9 +11,9 @@ import java.text.DecimalFormat;
  */
 public final class PricingImpl implements Pricing {
     private final static PricingImpl instance = new PricingImpl();
-    private double baseFare;
-    private double pricePerUnitOfDistance;
-    private double pricePerUnitOfTime;
+    private double baseFare = 2.50;
+    private double pricePerUnitOfDistance = 1.25;
+    private double pricePerUnitOfTime = 0.15;
     DecimalFormat df = new DecimalFormat("#.####");
 
 
