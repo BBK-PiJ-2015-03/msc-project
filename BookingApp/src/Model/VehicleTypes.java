@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class VehicleTypes {
     private static VehicleTypes instance = null;
-    private List<String> types = new ArrayList<>();
+    public static List<String> types = new ArrayList<>();
 
     private VehicleTypes() {
         // Exists only to defeat instantiation.
@@ -21,11 +21,4 @@ public class VehicleTypes {
         return instance;
     }
 
-    public void removeType(String type){
-        types.remove(type);
-    }
-
-    public void addType(String type){
-        types.add(type);
-    }
 }
