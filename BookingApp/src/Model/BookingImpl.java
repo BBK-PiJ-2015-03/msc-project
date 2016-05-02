@@ -1,19 +1,24 @@
 package Model;
 
+import Controllers.ObservableLists;
 import Model.Interfaces.Account;
 import Model.Interfaces.Booking;
 import Model.Interfaces.Driver;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 /**
  * Implementation of Booking interface, will contain all relevant booking details of a job.
  */
 public class BookingImpl implements Booking {
-    private static int bookingNumberCounter = 1001;
+    public static int bookingNumberCounter = 1001;
     private final int bookingNumber;
     private Account account;
     private String vehicleType;
-    private int noPassengers;
-    private String date;
+    private String noPassengers;
+    private LocalDate date;
     private String time;
     private String pickUpAddress;
     private String dropOffAddress;
@@ -29,6 +34,9 @@ public class BookingImpl implements Booking {
         this.bookingNumber = bookingNumberCounter;
         bookingNumberCounter++;
         Archive.allBookings.add(this);
+        Archive.incompleteBookings.add(this);
+        ObservableLists.bookingsList.clear();
+        ObservableLists.bookingsList.addAll(Archive.incompleteBookings);
         account.newBooking(this);
     }
 
@@ -59,19 +67,19 @@ public class BookingImpl implements Booking {
         this.vehicleType = vehicleType;
     }
 
-    public int getNoPassengers() {
+    public String getNoPassengers() {
         return noPassengers;
     }
 
-    public void setNoPassengers(int noPassengers) {
+    public void setNoPassengers(String noPassengers) {
         this.noPassengers = noPassengers;
     }
 
     public String getDate() {
-        return date;
+        return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -135,6 +143,10 @@ public class BookingImpl implements Booking {
         return price;
     }
 
+    public String getFormattedPrice() {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return "£"+df.format(this.price);
+    }
     public void setPrice(double price) {
         this.price = price;
     }
