@@ -1,7 +1,6 @@
 package Model;
 
 import Model.Interfaces.Account;
-import Model.Interfaces.Booking;
 import Model.Interfaces.Driver;
 import Model.Interfaces.Vehicle;
 
@@ -13,10 +12,11 @@ import java.util.List;
  */
 public final class Archive {
     private static Archive instance = new Archive();
-    static List<Account> allAccounts = new ArrayList<>();
-    static List<Booking> allBookings = new ArrayList<>();
-    static List<Driver> allDrivers = new ArrayList<>();
-    static List<Vehicle> allVehicles = new ArrayList<>();
+    public static List<Account> allAccounts = new ArrayList<>();
+    public static List<BookingImpl> allBookings = new ArrayList<>();
+    public static List<BookingImpl> incompleteBookings = new ArrayList<>();
+    public static List<Driver> allDrivers = new ArrayList<>();
+    public static List<Vehicle> allVehicles = new ArrayList<>();
 
     public static Archive getInstance() {
         return instance;
