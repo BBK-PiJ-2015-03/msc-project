@@ -1,5 +1,6 @@
 package Controllers;
 
+import Model.AccountImpl;
 import Model.BookingImpl;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -24,7 +25,8 @@ public class TableRowController extends Application{
 
     @Override
     public void start(Stage primaryStage){
-        TableView<Item> table = new TableView<>();
+        System.out.println(LocalTime.parse("12:24"));
+        TableView<BookingImpl> table = new TableView<>();
 
         ObjectProperty<LocalTime> now = new SimpleObjectProperty<>(LocalTime.now());
 
@@ -60,7 +62,7 @@ public class TableRowController extends Application{
         primaryStage.show();
     }
 
-    public void updateRow(TableRow<Item> row, LocalTime now) {
+    public void updateRow(TableRow<BookingImpl> row, LocalTime now) {
         boolean isFuture = false ;
         if (row.getItem() != null) {
             isFuture = row.getItem().getTime().isBefore(now);
@@ -77,14 +79,15 @@ public class TableRowController extends Application{
         }.start();
     }
 
-    private void configureTable(TableView<Item> table) {
-        table.getColumns().add(column("Item", Item::nameProperty));
-        table.getColumns().add(column("Time", Item::timeProperty));
+    private void configureTable(TableView<BookingImpl> table) {
+        table.getColumns().add(column("Name", (Function<BookingImpl, Property<String>>) (t) -> new SimpleStringProperty(t.getClientName())));
+        table.getColumns().add(column("Time", (Function<BookingImpl, Property<LocalTime>>) (t) -> t.timeProperty()));
 
         Random rng = new Random();
         LocalTime now = LocalTime.now();
         for (int i = 1 ; i <= 50 ; i++) {
-            Item item = new Item("Item "+i, now.plusSeconds(rng.nextInt(120) - 60));
+            BookingImpl item = new BookingImpl(new AccountImpl("null"));
+            item.setTime(now.plusSeconds(rng.nextInt(120) - 60));
             table.getItems().add(item);
         }
     }
