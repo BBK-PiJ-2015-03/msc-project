@@ -103,4 +103,9 @@ public class DriverImpl implements Driver {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    @Override
+    public String toString(){
+        return this.id;
+    }
 }
