@@ -41,7 +41,7 @@ public class TestPricingCalculation {
     public void testCorrectRoundingInPriceCalculation() {
         String distance = "5.86 km";
         String time = "19.30 mins";
-        double expected = 12.72;
+        double expected = 12.70;
         double result = priceCalc.calculatePrice(distance, time);
         assertEquals(expected, result);
 
