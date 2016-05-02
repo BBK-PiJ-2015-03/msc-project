@@ -34,4 +34,9 @@ public final class Cash implements Account {
     public void newBooking(Booking booking) {
         cashBookings.add(booking);
     }
+
+    @Override
+    public String toString(){
+        return "Cash";
+    }
 }
