@@ -16,7 +16,9 @@ public class Main extends Application{
         window.setTitle("Desktop Booking & Dispatch System");
         window.setMinWidth(1024);
         window.setMinHeight(720);
-        window.setScene(new Scene(root, 800, 600));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("CSS/future-booking-highlighting.css");
+        window.setScene(scene);
         window.show();
     }
 }
