@@ -1,6 +1,9 @@
 package Controllers;
 
+import Model.PricingImpl;
+import Utils.XmlParser;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import resources.gmapsfx.GoogleMapView;
 import resources.gmapsfx.MapComponentInitializedListener;
 import resources.gmapsfx.javascript.object.*;
@@ -13,6 +16,8 @@ import resources.gmapsfx.service.geocoding.GeocodingResult;
 import resources.gmapsfx.service.geocoding.GeocodingService;
 import resources.gmapsfx.service.geocoding.GeocodingServiceCallback;
 
+import java.text.DecimalFormat;
+
 
 public class MapController implements MapComponentInitializedListener,
         ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback { //MapComponentInitializedListener {
@@ -22,12 +27,15 @@ public class MapController implements MapComponentInitializedListener,
     private GoogleMap map;
     private Label journeyDistanceLabel;
     private Label journeyDurationLabel;
+    private TextField price;
 
 
     protected DirectionsPane directions;
     private DirectionsRenderer renderer;
     private String journeyTime;
     private String journeyDistance;
+    private String origin;
+    private String destination;
 
 
     public String getJourneyTime() {
@@ -38,13 +46,21 @@ public class MapController implements MapComponentInitializedListener,
         return journeyDistance;
     }
 
-    public MapController(GoogleMapView mapView, GoogleMap map, Label journeyDistanceLabel, Label journeyDurationLabel){
+    public MapController(GoogleMapView mapView, GoogleMap map, Label journeyDistanceLabel, Label journeyDurationLabel, TextField price){
         this.mapView = mapView;
         this.map = map;
         this.journeyDistanceLabel = journeyDistanceLabel;
         this.journeyDurationLabel = journeyDurationLabel;
+        this.price = price;
     }
 
+    public void setJourneyTime(String journeyTime) {
+        this.journeyTime = journeyTime;
+    }
+
+    public void setJourneyDistance(String journeyDistance) {
+        this.journeyDistance = journeyDistance;
+    }
 
     public void mapInitialized(){
         //Once the map has been loaded by the Webview, initialize the map details.
@@ -70,6 +86,8 @@ public class MapController implements MapComponentInitializedListener,
     }
 
     public void newRoute(String origin, String destination){
+        this.origin = origin;
+        this.destination = destination;
         MapOptions options = new MapOptions();
         LatLong center = new LatLong(51.528308, -0.3817765);
         options.center(center)
@@ -94,9 +112,22 @@ public class MapController implements MapComponentInitializedListener,
         ds.getRoute(dr, this, renderer);
     }
 
+    private void setDuration(String origin, String destination){
+        XmlParser x = new XmlParser();
+        String journeyTime;
+        try {
+            journeyTime = x.getJourneyDuration(origin, destination);
+        } catch (Exception e) {
+            journeyTime = "Unavailable";
+        }
+        journeyDurationLabel.setText("Duration: " + journeyTime);
+        setJourneyTime(journeyTime);
+    }
+
     @Override
     public void directionsReceived(DirectionsResult results, DirectionStatus status) {
         if(status.equals(DirectionStatus.OK)){
+            DecimalFormat df = new DecimalFormat("#.00");
 //            System.out.println("OK");
             DirectionsResult e = results;
             GeocodingService gs = new GeocodingService();
@@ -104,17 +135,21 @@ public class MapController implements MapComponentInitializedListener,
             System.out.println("LEGS SIZE: " + e.getRoutes().get(0).getLegs().size());
             System.out.println("WAYPOINTS " +e.getGeocodedWaypoints().size());
             try{
-                this.journeyDistance = e.getRoutes().get(0).getLegs().get(0).getDistance().getText();
+                setJourneyDistance(e.getRoutes().get(0).getLegs().get(0).getDistance().getText());
+                setJourneyTime(e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
                 System.out.println("Distancia total = " + journeyDistance);
+                setDuration(origin, destination);
+                String calculatedPrice = df.format(PricingImpl.getInstance().calculatePrice(journeyDistance, journeyTime));
+                price.setText(calculatedPrice);
                 journeyDistanceLabel.setText("Distance: "+journeyDistance);
             } catch(Exception ex){
                 System.out.println("ERRO: " + ex.getMessage());
             }
-            System.out.println("Duration total = " + e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
-            System.out.println("LEG(0)");
-            System.out.println(e.getRoutes().get(0).getLegs().get(0).getSteps().size());
-            System.out.println(renderer.toString());
-            journeyDistance = e.getRoutes().get(0).getLegs().get(0).getDistance().getText();
+//            System.out.println("Duration total = " + e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
+//            System.out.println("LEG(0)");
+//            System.out.println(e.getRoutes().get(0).getLegs().get(0).getSteps().size());
+//            System.out.println(renderer.toString());
+//            journeyDistance = e.getRoutes().get(0).getLegs().get(0).getDistance().getText();
         }
     }
 
