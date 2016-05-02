@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
  */
 public class ObservableLists {
     public static ObservableList<Account> accountList = FXCollections.observableArrayList();
+    public static ObservableList<Account> accountListNoCash = FXCollections.observableArrayList();
     public static ObservableList<Driver> driverList = FXCollections.observableArrayList();
     public static ObservableList<String> vehicleTypeList = FXCollections.observableArrayList();
     public static ObservableList<BookingImpl> bookingsList = FXCollections.observableArrayList();
@@ -27,5 +28,13 @@ public class ObservableLists {
         driverList.addAll(Archive.allDrivers);
         vehicleTypeList.addAll(VehicleTypes.types);
         bookingsList.addAll(Archive.incompleteBookings);
+    }
+
+    public static void refreshAccountList(){
+        accountList.clear();
+        accountListNoCash.clear();
+        accountList.add(Cash.getInstance());
+        accountList.addAll(Archive.allAccounts);
+        accountListNoCash.addAll(Archive.allAccounts);
     }
 }
