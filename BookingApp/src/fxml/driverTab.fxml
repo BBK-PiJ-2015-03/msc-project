@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
+    <children>
+        <AnchorPane layoutX="205.0" layoutY="14.0" prefHeight="614.0" prefWidth="752.0" style="-fx-background-color: f1f1f1; -fx-region-border: 2px;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="14.0" />
+        <ListView fx:id="driverTabList" layoutX="33.0" layoutY="18.0" prefHeight="619.0" prefWidth="205.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+        <Pane layoutX="205.0" layoutY="14.0" maxHeight="29.0" maxWidth="820.0" prefHeight="29.0" prefWidth="752.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="210.0">
+            <children>
+                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Driver Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Button fx:id="driverTabDeleteButton" layoutX="643.0" layoutY="1.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Delete" textFill="WHITE" />
+            </children>
+        </Pane>
+        <GridPane layoutX="205.0" layoutY="60.0" prefHeight="251.0" prefWidth="816.0" AnchorPane.leftAnchor="213.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="86.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="0.0" prefWidth="252.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="107.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="253.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="118.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Name: " />
+                <Label text="ID: " GridPane.rowIndex="1" />
+                <Label text="Address: " GridPane.rowIndex="2" />
+                <Label text="Phone: " GridPane.rowIndex="3" />
+                <TextField fx:id="driverNameField" GridPane.columnIndex="1" />
+                <TextField fx:id="driverIdField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="driverAddressField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="driverPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label text="Pin: " GridPane.columnIndex="2" />
+                <Label text="NIS: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label text="PCO #: " GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label text="PCO: " GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <TextField fx:id="driverPinField" GridPane.columnIndex="3" />
+                <TextField fx:id="driverNisField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <TextField fx:id="driverPcoNoField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <DatePicker fx:id="driverPcoDateField" prefHeight="27.0" prefWidth="253.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            </children>
+        </GridPane>
+        <Pane layoutX="205.0" layoutY="329.0" maxHeight="29.0" maxWidth="820.0" prefHeight="29.0" prefWidth="752.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="210.0">
+            <children>
+                <Label alignment="CENTER" layoutX="44.0" layoutY="5.0" style="&#10;" text="Vehicle Details" textAlignment="CENTER" textFill="#515050" wrapText="false">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <GridPane layoutX="205.0" layoutY="378.0" prefHeight="220.0" prefWidth="816.0" AnchorPane.leftAnchor="213.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="89.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="0.0" prefWidth="249.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="107.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="253.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.0" minWidth="10.0" prefWidth="118.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="210.0" minHeight="10.0" prefHeight="210.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Registration: " />
+                <Label text="Colour: " GridPane.rowIndex="1" />
+                <Label text="Type: " GridPane.rowIndex="2" />
+                <TextField fx:id="vehicleRegistrationField" GridPane.columnIndex="1" />
+                <TextField fx:id="vehicleColourField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="vehicleTypeField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="MOT: " GridPane.columnIndex="2" />
+                <Label text="Insurance: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label text="PCO: " GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <DatePicker fx:id="vehicleMotDateField" prefHeight="27.0" prefWidth="259.0" GridPane.columnIndex="3" />
+                <DatePicker fx:id="vehicleInsuranceDateField" prefHeight="27.0" prefWidth="253.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <DatePicker fx:id="vehiclePcoDateField" prefHeight="27.0" prefWidth="267.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <HBox prefHeight="55.0" prefWidth="158.0" spacing="15.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                    <children>
+                        <Button fx:id="driverTabSaveButton" mnemonicParsing="false" text="Save">
+                            <HBox.margin>
+                                <Insets top="20.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="driverTabCancelButton" mnemonicParsing="false" text="Cancel">
+                            <HBox.margin>
+                                <Insets top="20.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets left="130.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </GridPane>
+        <HBox layoutY="623.0" prefHeight="36.0" prefWidth="205.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="5.0">
+            <children>
+                <TextField fx:id="addNewDriverField" prefHeight="36.0" prefWidth="130.0" />
+                <Button fx:id="addNewDriverButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="74.0" text="Add">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="8.0" />
+                    </padding>
+                </Button>
+            </children>
+        </HBox>
+    </children></AnchorPane>
