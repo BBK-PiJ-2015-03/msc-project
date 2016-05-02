@@ -1,5 +1,6 @@
 package Model;
 
+import Controllers.ObservableLists;
 import Model.Interfaces.Account;
 import Model.Interfaces.Booking;
 
@@ -16,11 +17,10 @@ public class AccountImpl implements Account{
     String tel;
     List<Booking> allBookings = new ArrayList<>();
 
-    public AccountImpl(String name, String id, String address) {
-        this.name = name;
+    public AccountImpl(String id) {
         this.id = id;
-        this.address = address;
         Archive.allAccounts.add(this);
+        ObservableLists.accountList.add(this);
     }
 
     public String getName() {
