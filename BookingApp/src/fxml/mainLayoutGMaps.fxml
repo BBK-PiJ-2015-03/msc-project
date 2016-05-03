@@ -487,14 +487,14 @@
                                                     </children>
                                                 </Pane>
                                                 <TableView fx:id="bookingTableView" prefHeight="494.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
-                                                    <columns>
-                                                        <TableColumn fx:id="timeCol" prefWidth="75.0" text="Time" />
-                                                        <TableColumn fx:id="nameCol" prefWidth="120.0" text="Name" />
-                                                        <TableColumn fx:id="pickUpCol" minWidth="30.0" prefWidth="250.0" text="Pickup" />
-                                                        <TableColumn fx:id="dropOffCol" prefWidth="250.0" text="Destination" />
-                                                        <TableColumn fx:id="commentCol" prefWidth="213.0" text="Comment" />
-                                                        <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
-                                                    </columns>
+                                                    <!--<columns>-->
+                                                        <!--<TableColumn fx:id="timeCol" prefWidth="75.0" text="Time" />-->
+                                                        <!--<TableColumn fx:id="nameCol" prefWidth="120.0" text="Name" />-->
+                                                        <!--<TableColumn fx:id="pickUpCol" minWidth="30.0" prefWidth="250.0" text="Pickup" />-->
+                                                        <!--<TableColumn fx:id="dropOffCol" prefWidth="250.0" text="Destination" />-->
+                                                        <!--<TableColumn fx:id="commentCol" prefWidth="213.0" text="Comment" />-->
+                                                        <!--<TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />-->
+                                                    <!--</columns>-->
                                                 </TableView>
                                             </children>
                                         </VBox>
