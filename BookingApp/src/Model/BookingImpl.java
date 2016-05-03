@@ -4,10 +4,15 @@ import Controllers.ObservableLists;
 import Model.Interfaces.Account;
 import Model.Interfaces.Booking;
 import Model.Interfaces.Driver;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * Implementation of Booking interface, will contain all relevant booking details of a job.
@@ -19,14 +24,14 @@ public class BookingImpl implements Booking {
     private String vehicleType;
     private String noPassengers;
     private LocalDate date;
-    private String time;
-    private String pickUpAddress;
-    private String dropOffAddress;
-    private String clientName;
+    private ObjectProperty<LocalTime> time = new SimpleObjectProperty<>();
+    private StringProperty pickUpAddress = new SimpleStringProperty();
+    private StringProperty dropOffAddress = new SimpleStringProperty();
+    private StringProperty clientName = new SimpleStringProperty();
     private String clientTel;
     private String clientEmail;
-    private String comments;
-    private double price;
+    private StringProperty comments = new SimpleStringProperty();
+    private ObjectProperty<Double> price = new SimpleObjectProperty<>();
     private boolean completed = false;
     private Driver driver;
 
@@ -83,36 +88,50 @@ public class BookingImpl implements Booking {
         this.date = date;
     }
 
-    public String getTime() {
+    public ObjectProperty<LocalTime> getTimeProperty() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public LocalTime getTime() {
+        return this.getTimeProperty().get();
     }
 
+    public void setTime(LocalTime time) {this.time.set(time);}
+
     public String getPickUpAddress() {
+        return pickUpAddress.get();
+    }
+
+    public StringProperty getPickUpAddressProperty() {
         return pickUpAddress;
     }
 
     public void setPickUpAddress(String pickUpAddress) {
-        this.pickUpAddress = pickUpAddress;
+        this.pickUpAddress.set(pickUpAddress);
     }
 
     public String getDropOffAddress() {
+        return dropOffAddress.get();
+    }
+
+    public StringProperty getDropOffAddressProperty() {
         return dropOffAddress;
     }
 
     public void setDropOffAddress(String dropOffAddress) {
-        this.dropOffAddress = dropOffAddress;
+        this.dropOffAddress.set(dropOffAddress);
     }
 
     public String getClientName() {
+        return clientName.get();
+    }
+
+    public StringProperty getClientNameProperty() {
         return clientName;
     }
 
     public void setClientName(String clientName) {
-        this.clientName = clientName;
+        this.clientName.set(clientName);
     }
 
     public String getClientTel() {
@@ -132,23 +151,32 @@ public class BookingImpl implements Booking {
     }
 
     public String getComments() {
+        return comments.get();
+    }
+
+    public StringProperty getCommentsProperty() {
         return comments;
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments.set(comments);
     }
 
     public double getPrice() {
-        return price;
+        return price.get();
     }
+
+    public SimpleStringProperty getPriceProperty() {
+        return new SimpleStringProperty(getFormattedPrice());
+    }
+
 
     public String getFormattedPrice() {
         DecimalFormat df = new DecimalFormat("#.00");
-        return "£"+df.format(this.price);
+        return "£"+df.format(this.price.get());
     }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPrice(Double price) {
+        this.price.set(price);
     }
 
     public boolean isCompleted() {
