@@ -1,47 +1,36 @@
 package Controllers;
 
-import Model.AccountImpl;
 import Model.BookingImpl;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.css.PseudoClass;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 import java.time.LocalTime;
-import java.util.Random;
 import java.util.function.Function;
 
-public class TableRowController extends Application{
+public class TableRowController{
 
     private final PseudoClass future = PseudoClass.getPseudoClass("future");
 
-    @Override
-    public void start(Stage primaryStage){
-        System.out.println(LocalTime.parse("12:24"));
-        TableView<BookingImpl> table = new TableView<>();
-
+    public void buildTable(TableView table){
         ObjectProperty<LocalTime> now = new SimpleObjectProperty<>(LocalTime.now());
-
         startClock(now);
-
         table.setRowFactory(tv -> {
             TableRow<BookingImpl> row = new TableRow<>();
             ChangeListener<LocalTime> listener = (obs, oldTime, newTime) -> updateRow(row, now.get());
             now.addListener(listener);
             row.itemProperty().addListener((obs, oldItem, newItem) -> {
                 if (oldItem != null) {
-                    oldItem.timeProperty().removeListener(listener);
+                    oldItem.getTimeProperty().removeListener(listener);
                 }
                 if (newItem != null) {
-                    newItem.timeProperty().addListener(listener);
+                    newItem.getTimeProperty().addListener(listener);
                 }
                 updateRow(row, now.get());
             });
@@ -49,17 +38,6 @@ public class TableRowController extends Application{
         });
 
         configureTable(table);
-
-        BorderPane root = new BorderPane(table);
-        Label clock = new Label();
-        root.setTop(clock);
-
-        clock.textProperty().bind(now.asString());
-
-        Scene scene = new Scene(root, 600, 600);
-        scene.getStylesheets().add("CSS/future-booking-highlighting.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     public void updateRow(TableRow<BookingImpl> row, LocalTime now) {
@@ -70,26 +48,23 @@ public class TableRowController extends Application{
         row.pseudoClassStateChanged(future, isFuture);
     }
 
-    private void startClock(ObjectProperty<LocalTime> clock) {
-        new AnimationTimer() {
-            @Override
-            public void handle(long timestamp) {
-                clock.set(LocalTime.now());
-            }
-        }.start();
-    }
 
     private void configureTable(TableView<BookingImpl> table) {
-        table.getColumns().add(column("Name", (Function<BookingImpl, Property<String>>) (t) -> new SimpleStringProperty(t.getClientName())));
-        table.getColumns().add(column("Time", (Function<BookingImpl, Property<LocalTime>>) (t) -> t.timeProperty()));
-
-        Random rng = new Random();
-        LocalTime now = LocalTime.now();
-        for (int i = 1 ; i <= 50 ; i++) {
-            BookingImpl item = new BookingImpl(new AccountImpl("null"));
-            item.setTime(now.plusSeconds(rng.nextInt(120) - 60));
-            table.getItems().add(item);
-        }
+        TableColumn<BookingImpl, LocalTime> timeCol = column("Time", (t) -> t.getTimeProperty());
+        TableColumn<BookingImpl, String> nameCol = column("Name", (t) -> t.getClientNameProperty());
+        TableColumn<BookingImpl, String> pickupCol = column("Pickup", (t) -> t.getPickUpAddressProperty());
+        TableColumn<BookingImpl, String> dropoffCol = column("Dropoff", (t) -> t.getDropOffAddressProperty());
+        TableColumn<BookingImpl, String> commentCol = column("Comment", (t) -> t.getCommentsProperty());
+        TableColumn<BookingImpl, String> priceCol = column("Price", (t) -> t.getPriceProperty());
+        timeCol.setMinWidth(75);
+        nameCol.setMinWidth(120);
+        pickupCol.setMinWidth(250);
+        dropoffCol.setMinWidth(250);
+        commentCol.setMinWidth(213);
+        priceCol.setMinWidth(75);
+        table.setItems(ObservableLists.bookingsList);
+        timeCol.sortTypeProperty().setValue(TableColumn.SortType.ASCENDING);
+        table.getSortOrder().add(timeCol);
     }
 
     private <S,T> TableColumn<S,T> column(String title, Function<S, Property<T>> property) {
@@ -98,49 +73,12 @@ public class TableRowController extends Application{
         return column ;
     }
 
-    public static class Item {
-        private final StringProperty name = new SimpleStringProperty();
-        private final ObjectProperty<LocalTime> time = new SimpleObjectProperty<>();
-
-        public Item(String name, LocalTime time) {
-            setName(name);
-            setTime(time);
-        }
-
-        public final StringProperty nameProperty() {
-            return this.name;
-        }
-
-
-        public final String getName() {
-            return this.nameProperty().get();
-        }
-
-
-        public final void setName(final String name) {
-            this.nameProperty().set(name);
-        }
-
-
-        public final ObjectProperty<LocalTime> timeProperty() {
-            return this.time;
-        }
-
-
-        public final LocalTime getTime() {
-            return this.timeProperty().get();
-        }
-
-
-        public final void setTime(final LocalTime time) {
-            this.timeProperty().set(time);
-        }
-
-
-
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+    private void startClock(ObjectProperty<LocalTime> clock) {
+        new AnimationTimer() {
+            @Override
+            public void handle(long timestamp) {
+                clock.set(LocalTime.now());
+            }
+        }.start();
     }
 }
