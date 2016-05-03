@@ -18,7 +18,7 @@ public class TableRowController{
 
     private final PseudoClass future = PseudoClass.getPseudoClass("future");
 
-    public void buildTable(TableView table){
+    public void start(TableView table){
         ObjectProperty<LocalTime> now = new SimpleObjectProperty<>(LocalTime.now());
         startClock(now);
         table.setRowFactory(tv -> {
@@ -56,15 +56,21 @@ public class TableRowController{
         TableColumn<BookingImpl, String> dropoffCol = column("Dropoff", (t) -> t.getDropOffAddressProperty());
         TableColumn<BookingImpl, String> commentCol = column("Comment", (t) -> t.getCommentsProperty());
         TableColumn<BookingImpl, String> priceCol = column("Price", (t) -> t.getPriceProperty());
+        table.getColumns().addAll(timeCol, nameCol, pickupCol, dropoffCol, commentCol, priceCol);
         timeCol.setMinWidth(75);
         nameCol.setMinWidth(120);
         pickupCol.setMinWidth(250);
         dropoffCol.setMinWidth(250);
         commentCol.setMinWidth(213);
         priceCol.setMinWidth(75);
-        table.setItems(ObservableLists.bookingsList);
         timeCol.sortTypeProperty().setValue(TableColumn.SortType.ASCENDING);
         table.getSortOrder().add(timeCol);
+//        table.getColumns().add(column("Name", (Function<BookingImpl, Property<String>>) (t) -> t.getClientNameProperty()));
+//        table.getColumns().add(column("Pickup", (Function<BookingImpl, Property<String>>) (t) -> t.getPickUpAddressProperty()));
+//        table.getColumns().add(column("Dropoff", (Function<BookingImpl, Property<String>>) (t) -> t.getDropOffAddressProperty()));
+//        table.getColumns().add(column("Comment", (Function<BookingImpl, Property<String>>) (t) -> t.getCommentsProperty()));
+//        table.getColumns().add(column("Price", (Function<BookingImpl, Property<String>>) (t) -> t.getPriceProperty()));
+        table.setItems(ObservableLists.bookingsList);
     }
 
     private <S,T> TableColumn<S,T> column(String title, Function<S, Property<T>> property) {
