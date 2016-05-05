@@ -22,7 +22,8 @@ public class LoadOnlineDatabase {
             URL url = new URL("https://amber-inferno-8546.firebaseio.com/Bookings/Awaiting_Dispatch.json");
             JsonNode bookings = objectMapper.readValue(url, JsonNode.class);
             bookings.forEach(booking -> {
-                if(booking == null || !booking.toString().equals("null") && !exists(booking.get("booking_number").asInt())) {
+                //double check below null
+                if(!booking.toString().equals("null") && !exists(booking.get("booking_number").asInt())) {
                     BookingImpl b = new BookingImpl(Cash.getInstance());
                     System.out.println("1");
                     System.out.println(booking.toString());
