@@ -18,8 +18,8 @@ import java.time.LocalTime;
  * Implementation of Booking interface, will contain all relevant booking details of a job.
  */
 public class BookingImpl implements Booking {
-    public static int bookingNumberCounter = 1001;
-    private final int bookingNumber;
+    public static ObjectProperty<String> bookingNumberCounter = new SimpleObjectProperty<>("1001");
+    private int bookingNumber;
     private Account account;
     private String vehicleType;
     private String noPassengers;
@@ -36,12 +36,11 @@ public class BookingImpl implements Booking {
     private Driver driver;
 
     public BookingImpl(Account account){
-        this.bookingNumber = bookingNumberCounter;
-        bookingNumberCounter++;
+        this.bookingNumber = Integer.parseInt(bookingNumberCounter.getValue());
+        bookingNumberCounter.setValue((this.bookingNumber+1)+"");
         Archive.allBookings.add(this);
         Archive.incompleteBookings.add(this);
-        ObservableLists.bookingsList.clear();
-        ObservableLists.bookingsList.addAll(Archive.incompleteBookings);
+        ObservableLists.bookingsList.add(this);
         account.newBooking(this);
     }
 
@@ -55,6 +54,8 @@ public class BookingImpl implements Booking {
     public int getBookingNumber() {
         return bookingNumber;
     }
+
+    public void setBookingNumber(int bookingNumber){ this.bookingNumber = bookingNumber; }
 
     public Account getAccount() {
         return account;
