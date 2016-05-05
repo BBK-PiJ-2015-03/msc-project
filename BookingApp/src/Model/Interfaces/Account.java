@@ -21,4 +21,6 @@ public interface Account {
      */
     void newBooking(Booking booking);
 
+    String getId();
+
 }
