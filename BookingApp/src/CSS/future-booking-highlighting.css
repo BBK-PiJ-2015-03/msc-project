@@ -1,3 +1,7 @@
-.table-row-cell:future {
+.table-row-cell:overdue {
     -fx-background: palevioletred;
 }
+.table-row-cell:due {
+    -fx-background: palegreen;
+}
+/* Might not use the due style for rows as it seems pointless */
