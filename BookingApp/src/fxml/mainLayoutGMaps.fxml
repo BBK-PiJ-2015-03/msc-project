@@ -626,8 +626,10 @@
                                             </children>
                                         </HBox>
                                     </children></AnchorPane>
-                                <!--<fx:include source="driverTab.fxml"/>-->
                             </content>
+                            <!--<content>-->
+                                <!--<fx:include fx:id="fooTabPage" source="driverTab.fxml"/>-->
+                            <!--</content>-->
                         </Tab>
                         <Tab fx:id="accountsTab" text="Accounts">
                             <content>
