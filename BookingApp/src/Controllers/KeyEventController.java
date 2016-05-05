@@ -4,12 +4,9 @@ import Utils.TimeFieldValidator;
 import Utils.XmlParser;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.util.Callback;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -67,12 +64,6 @@ public class KeyEventController {
         cal.setTime(d);
         cal.add(Calendar.MINUTE, 5);
         return cal.getTime();
-    }
-
-    public void runLateBookingMonitor(TableView table){
-        Callback<TableView, TableRow> tableRows = table.getRowFactory();
-//        for (TableRow t:tableRows.call(table)) {
-//        }
     }
 
 }
