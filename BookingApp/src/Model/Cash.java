@@ -36,6 +36,11 @@ public final class Cash implements Account {
     }
 
     @Override
+    public String getId() {
+        return "Cash";
+    }
+
+    @Override
     public String toString(){
         return "Cash";
     }
