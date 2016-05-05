@@ -1,14 +1,12 @@
 package Controllers;
 
-import Model.BookingImpl;
-import Model.Cash;
+import Model.*;
 import Model.Interfaces.Account;
 import Model.Interfaces.Driver;
 import Utils.XmlParser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
 import org.xml.sax.SAXException;
@@ -22,7 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable, MapComponentInitializedListener {
@@ -172,6 +170,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
     private TextField addNewAccountField;
     @FXML
     private Button addNewAccountButton;
+    private AccountImpl selectedAccount;
 
     @FXML
     private Tab pricingTab;
@@ -184,24 +183,40 @@ public class MainController implements Initializable, MapComponentInitializedLis
     private GoogleMap map;
 
     //UI Controller Classes
-    private BookingTabController btc = new BookingTabController();
+    private KeyEventController kec = new KeyEventController();
 
 
+//    @FXML
+//    private FooTabController fooTabPage;
 
+
+    /**
+     * Initialising
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        Booking b = new BookingImpl(new AccountImpl("K-22"));
+        LoadOnlineDatabase load = new LoadOnlineDatabase();
+        load.loadBookings();
+        refreshBookingNo();
         mapView.addMapInializedListener(this);
+        BookingListener.start();
         initializeLists();
         initializeBookingForm();
         initializeBookingTable();
-        LocalDate d = bookingDateSelected.getValue();
+    }
+
+    public void refreshBookingNo(){
+        int i = 0;
+        for (BookingImpl b : Archive.allBookings){
+            i  = (b.getBookingNumber() > 0) ? b.getBookingNumber() : i;
+        }
+        BookingImpl.bookingNumberCounter.setValue((i+1)+"");
     }
 
     private void initializeBookingForm(){
-        bookingNumber.setText("#"+BookingImpl.bookingNumberCounter);
+        bookingNumber.textProperty().bind(BookingImpl.bookingNumberCounter.asString());
         bookingDateSelected.setValue(LocalDate.now());
-        bookingTimeSelected.setText(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime()));
+        bookingTimeSelected.setText(new SimpleDateFormat("HH:mm").format(kec.currentTimePlusFiveMinutes()));
         bookingAccountOrCash.setValue(Cash.getInstance());
         bookingVehicleType.setValue("Saloon");
         bookingPassengerNo.setValue("1");
@@ -218,7 +233,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
 
     private void initializeLists(){
         ObservableLists.initialise();
-        accountTabList.setItems(ObservableLists.accountList);
+        accountTabList.setItems(ObservableLists.accountListNoCash);
         bookingAccountOrCash.setItems(ObservableLists.accountList);
         driverTabList.setItems(ObservableLists.driverList);
         bookingVehicleType.setItems(ObservableLists.vehicleTypeList);
@@ -231,18 +246,17 @@ public class MainController implements Initializable, MapComponentInitializedLis
     }
 
     private void initializeBookingTable(){
-        timeCol.setCellValueFactory(new PropertyValueFactory<>("Time"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("ClientName"));
-        pickUpCol.setCellValueFactory(new PropertyValueFactory<>("PickUpAddress"));
-        dropOffCol.setCellValueFactory(new PropertyValueFactory<>("DropOffAddress"));
-        commentCol.setCellValueFactory(new PropertyValueFactory<>("Comments"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("FormattedPrice"));
-        bookingTableView.setItems(ObservableLists.bookingsList);
+        TableRowController rowController = new TableRowController();
+        rowController.start(bookingTableView);
     }
+
+    /**
+     * Booking form methods
+     */
 
     @FXML
     public void timeFieldValidation(KeyEvent event) {
-        btc.timeFieldValidation(event);
+        kec.timeFieldValidation(event);
     }
 
     @FXML
@@ -272,9 +286,8 @@ public class MainController implements Initializable, MapComponentInitializedLis
         BookingImpl b = new BookingImpl(bookingAccountOrCash.getValue());
         b.setVehicleType(bookingVehicleType.getSelectionModel().getSelectedItem());
         b.setNoPassengers(bookingPassengerNo.getSelectionModel().getSelectedItem().toString());
-        System.out.println("PASSENGERS: "+bookingPassengerNo.getSelectionModel().getSelectedItem().toString());
         b.setDate(bookingDateSelected.getValue());
-        b.setTime(bookingTimeSelected.getText());
+        b.setTime(LocalTime.parse(bookingTimeSelected.getText()));
         if(bookingFromNumberField.getText().equals("")) {
             b.setPickUpAddress(bookingFromAddressField.getText());
         } else {
@@ -291,12 +304,14 @@ public class MainController implements Initializable, MapComponentInitializedLis
         b.setClientEmail(bookingPassengerEmailField.getText());
         b.setComments(bookingCommentsField.getText());
         b.setPrice(Double.parseDouble(bookingPriceField.getText()));
+        //Clear the booking form
         initializeBookingForm();
+        BookingListener.addBooking(b);
     }
 
     @FXML
     public void addressKeyPressed(KeyEvent event) throws ParserConfigurationException, TransformerException, SAXException, IOException {
-        btc.addressKeyPressed(event);
+        kec.addressKeyPressed(event);
     }
 
     @FXML
@@ -309,8 +324,58 @@ public class MainController implements Initializable, MapComponentInitializedLis
         initializeBookingForm();
     }
 
+    /**
+     * Driver Tab Methods
+     */
+    @FXML
+    public void addNewDriverButtonFired() {
+        if(!addNewDriverField.getText().equals(null)) {
+            new DriverImpl(addNewDriverField.getText());
+            addNewDriverField.clear();
+        }
+    }
+    @FXML
+    public void driverTabListClicked(){
 
+    }
 
+    /**
+     * Account Tab Methods
+     */
+    @FXML
+    public void addNewAccountButtonFired(){
+        if(!addNewAccountField.getText().equals(null)) {
+            AccountImpl a = new AccountImpl(addNewAccountField.getText());
+            selectedAccount = a;
+            accountTabList.getSelectionModel().select(selectedAccount);
+            addNewAccountField.clear();
+            accountTabListClicked();
+        }
+    }
+
+    @FXML
+    public void accountTabListClicked(){
+        if(accountTabList.getSelectionModel().getSelectedItem() != null) {
+            selectedAccount = (AccountImpl) accountTabList.getSelectionModel().getSelectedItem();
+            accountNameField.setText(selectedAccount.getName());
+            accountIdField.setText(selectedAccount.getId());
+            accountAddressField.setText(selectedAccount.getAddress());
+            accountPhoneField.setText(selectedAccount.getTel());
+        }
+    }
+
+    @FXML
+    public void accountSaveButtonFired(){
+//        if(selectedAccount == null) {
+            selectedAccount.setName(accountNameField.getText());
+            selectedAccount.setAddress(accountAddressField.getText());
+            selectedAccount.setId(accountIdField.getText());
+            selectedAccount.setTel(accountPhoneField.getText());
+            ObservableLists.refreshAccountList();
+            bookingAccountOrCash.setValue(Cash.getInstance());
+            accountTabList.getSelectionModel().select(selectedAccount);
+//        }
+    }
 
 }
 
