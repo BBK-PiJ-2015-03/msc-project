@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -82,7 +81,8 @@ public class BookingImpl implements Booking {
     }
 
     public String getDate() {
-        return new SimpleDateFormat("dd/MM/yyyy").format(date);
+//        DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return String.valueOf(date);
     }
 
     public void setDate(LocalDate date) {
