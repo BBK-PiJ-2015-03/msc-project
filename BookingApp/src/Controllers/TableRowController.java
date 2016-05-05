@@ -16,7 +16,8 @@ import java.util.function.Function;
 
 public class TableRowController{
 
-    private final PseudoClass future = PseudoClass.getPseudoClass("future");
+    private final PseudoClass overdue = PseudoClass.getPseudoClass("overdue");
+
 
     public void start(TableView table){
         ObjectProperty<LocalTime> now = new SimpleObjectProperty<>(LocalTime.now());
@@ -45,7 +46,7 @@ public class TableRowController{
         if (row.getItem() != null) {
             isFuture = row.getItem().getTime().isBefore(now);
         }
-        row.pseudoClassStateChanged(future, isFuture);
+        row.pseudoClassStateChanged(overdue, isFuture);
     }
 
 
