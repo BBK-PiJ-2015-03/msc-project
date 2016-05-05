@@ -8,6 +8,7 @@ import com.shaded.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
@@ -21,7 +22,7 @@ public class LoadOnlineDatabase {
             URL url = new URL("https://amber-inferno-8546.firebaseio.com/Bookings/Awaiting_Dispatch.json");
             JsonNode bookings = objectMapper.readValue(url, JsonNode.class);
             bookings.forEach(booking -> {
-                if(!booking.toString().equals("null") && !exists(booking.get("booking_number").asInt())) {
+                if(booking == null || !booking.toString().equals("null") && !exists(booking.get("booking_number").asInt())) {
                     BookingImpl b = new BookingImpl(Cash.getInstance());
                     System.out.println("1");
                     System.out.println(booking.toString());
@@ -53,10 +54,25 @@ public class LoadOnlineDatabase {
                     b.setClientTel(tel.asText());
                     System.out.println("1f");
 
-                    b.setTime(LocalTime.now());
+                    JsonNode time = booking.get("time");
+                    b.setTime(LocalTime.parse(time.asText()));
                     System.out.println("1g");
 
-                    b.setPrice(22.25);
+                    JsonNode vehicleType = booking.get("vehicle_type");
+                    b.setVehicleType(vehicleType.asText());
+                    System.out.println("1h");
+
+                    JsonNode noPassengers = booking.get("no_passengers");
+                    b.setNoPassengers(noPassengers.asText());
+                    System.out.println("1i");
+
+                    JsonNode date = booking.get("date");
+                    b.setDate(LocalDate.parse(date.asText()));
+                    System.out.println("1j");
+
+                    JsonNode price = booking.get("price");
+                    b.setPrice(Double.parseDouble(price.asText()));
+                    System.out.println("1k");
 
                 }
             });
