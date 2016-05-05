@@ -32,7 +32,10 @@ public class BookingListener {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                System.out.println(s);
+                Platform.runLater(() -> {
+                    LoadBookingChange load = new LoadBookingChange();
+                    load.loadBookingChange(Integer.parseInt(dataSnapshot.getKey()));
+                });
                 System.out.println("Change happened!");
                 //Have to work out what change happened and apply it to local object
 
