@@ -27,6 +27,7 @@ public class ObservableLists {
         accountList.addAll(Archive.allAccounts);
         driverList.addAll(Archive.allDrivers);
         vehicleTypeList.addAll(VehicleTypes.types);
+        bookingsList.clear();
         bookingsList.addAll(Archive.incompleteBookings);
     }
 
