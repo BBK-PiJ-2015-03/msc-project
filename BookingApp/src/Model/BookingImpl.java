@@ -27,6 +27,7 @@ public class BookingImpl implements Booking {
     private StringProperty pickUpAddress = new SimpleStringProperty();
     private StringProperty dropOffAddress = new SimpleStringProperty();
     private StringProperty clientName = new SimpleStringProperty();
+    private StringProperty formattedPrice = new SimpleStringProperty();
     private String clientTel;
     private String clientEmail;
     private StringProperty comments = new SimpleStringProperty();
@@ -167,17 +168,15 @@ public class BookingImpl implements Booking {
         return price.get();
     }
 
-    public SimpleStringProperty getPriceProperty() {
-        return new SimpleStringProperty(getFormattedPrice());
+    public StringProperty getPriceProperty() {
+        return formattedPrice;
     }
 
-
-    public String getFormattedPrice() {
-        DecimalFormat df = new DecimalFormat("#.00");
-        return "£"+df.format(this.price.get());
-    }
     public void setPrice(Double price) {
         this.price.set(price);
+        DecimalFormat df = new DecimalFormat("#.00");
+        this.formattedPrice.setValue("£"+df.format(this.price.get()));
+
     }
 
     public boolean isCompleted() {
