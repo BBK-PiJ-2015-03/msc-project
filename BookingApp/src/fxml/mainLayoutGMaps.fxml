@@ -598,7 +598,7 @@
                                                 <DatePicker fx:id="vehiclePcoDateField" prefHeight="27.0" prefWidth="267.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                                 <HBox prefHeight="55.0" prefWidth="158.0" spacing="15.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                                                     <children>
-                                                        <Button fx:id="driverTabSaveButton" mnemonicParsing="false" text="Save">
+                                                        <Button fx:id="driverTabSaveButton" onAction="#driverSaveButtonFired" mnemonicParsing="false" text="Save">
                                                             <HBox.margin>
                                                                 <Insets top="20.0" />
                                                             </HBox.margin>
