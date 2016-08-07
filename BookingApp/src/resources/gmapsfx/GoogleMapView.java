@@ -135,9 +135,10 @@ public class GoogleMapView extends AnchorPane {
     public GoogleMapView(String mapResourcePath, String language, String key, boolean debug) {
         this.language = language;
         this.key = key;
-        String filePath = new File("").getAbsolutePath();
-        String s = File.separator;
+        String filePath = ""; //new File("").getAbsolutePath();
+        String s = File.separator;    // .. < prev directory
         filePath = s+"resources"+s+"html"+s;
+//        filePath = getClass().getResource(s+"resources"+s+"html"+s).toExternalForm();
 
         String htmlFile;
         if (mapResourcePath == null) {
