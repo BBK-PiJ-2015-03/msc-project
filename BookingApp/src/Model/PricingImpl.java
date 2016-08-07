@@ -14,8 +14,7 @@ public final class PricingImpl implements Pricing {
     private double baseFare = 2.50;
     private double pricePerUnitOfDistance = 1.25;
     private double pricePerUnitOfTime = 0.15;
-    DecimalFormat df = new DecimalFormat("#.00");
-
+    private DecimalFormat df = new DecimalFormat("#.00");
 
     public static synchronized PricingImpl getInstance() {
         return instance;
