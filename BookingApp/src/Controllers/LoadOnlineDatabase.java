@@ -3,6 +3,7 @@ package Controllers;
 import Model.Archive;
 import Model.BookingImpl;
 import Model.Cash;
+import Model.DriverImpl;
 import com.shaded.fasterxml.jackson.databind.JsonNode;
 import com.shaded.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,6 +16,12 @@ import java.time.LocalTime;
  * Created by J2FX on 05/05/2016.
  */
 public class LoadOnlineDatabase {
+
+    public void loadOnlineDatabase(){
+        loadBookings();
+        loadDrivers();
+    }
+
     public void loadBookings(){
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -23,7 +30,7 @@ public class LoadOnlineDatabase {
             JsonNode bookings = objectMapper.readValue(url, JsonNode.class);
             bookings.forEach(booking -> {
                 //double check below null
-                if(!booking.toString().equals("null") && !exists(booking.get("booking_number").asInt())) {
+                if(!booking.toString().equals("null") && !bookingExists(booking.get("booking_number").asInt())) {
                     BookingImpl b = new BookingImpl(Cash.getInstance());
                     System.out.println("1");
                     System.out.println(booking.toString());
@@ -84,9 +91,62 @@ public class LoadOnlineDatabase {
         }
     }
 
-    private boolean exists(int number){
+    private boolean bookingExists(int number){
         for(BookingImpl bookings : Archive.allBookings){
             if(bookings.getBookingNumber() == number){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void loadDrivers(){
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            URL url = new URL("https://amber-inferno-8546.firebaseio.com/Drivers.json");
+            JsonNode drivers = objectMapper.readValue(url, JsonNode.class);
+            drivers.forEach(driver -> {
+                //double check below null
+                if(!driver.toString().equals("null") && !driverExists(driver.get("id").asInt())) {
+                    DriverImpl d = new DriverImpl(driver.get("id").asText());
+                    System.out.println("1");
+                    System.out.println(driver.toString());
+
+                    JsonNode driverName = driver.get("name");
+                    d.setName(driverName.asText());
+
+                    JsonNode driverPin = driver.get("pin");
+                    d.setPinCode(driverPin.asText());
+
+                    JsonNode driverNis = driver.get("nis");
+                    d.setNationalInsurance(driverNis.asText());
+
+                    JsonNode driverAddress = driver.get("address");
+                    d.setAddress(driverAddress.asText());
+
+                    JsonNode driverPco = driver.get("pco_no");
+                    d.setPcoNumber(driverPco.asText());
+
+                    JsonNode driverTel = driver.get("tel");
+                    d.setTel(driverTel.asText());
+
+//                    JsonNode driverPcoDate = driver.get("pco_date");
+//                    d.setPcoExpiryDate(driverPcoDate.asText()); //Throws error (need to re-format)
+
+
+                }
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean driverExists(int number){
+        for(DriverImpl driver : Archive.allDrivers){
+            if(driver.getId().equals(number)){
                 return true;
             }
         }
