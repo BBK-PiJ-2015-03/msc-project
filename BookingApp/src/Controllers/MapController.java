@@ -37,6 +37,8 @@ public class MapController implements MapComponentInitializedListener,
     private String origin;
     private String destination;
 
+    private static String unitOfDistance = "M";
+
 
     public String getJourneyTime() {
         return journeyTime;
@@ -120,7 +122,6 @@ public class MapController implements MapComponentInitializedListener,
         } catch (Exception e) {
             journeyTime = "Unavailable";
         }
-        journeyDurationLabel.setText("Duration: " + journeyTime);
         setJourneyTime(journeyTime);
     }
 
@@ -132,18 +133,28 @@ public class MapController implements MapComponentInitializedListener,
             DirectionsResult e = results;
             GeocodingService gs = new GeocodingService();
             System.out.println("SIZE ROUTES: " + e.getRoutes().size() + "\n" + "ORIGIN: " + e.getRoutes().get(0).getLegs().get(0).getStartLocation());
-            System.out.println("LEGS SIZE: " + e.getRoutes().get(0).getLegs().size());
-            System.out.println("WAYPOINTS " +e.getGeocodedWaypoints().size());
+//            System.out.println("LEGS SIZE: " + e.getRoutes().get(0).getLegs().size());
+//            System.out.println("WAYPOINTS " +e.getGeocodedWaypoints().size());
             try{
                 setJourneyDistance(e.getRoutes().get(0).getLegs().get(0).getDistance().getText());
+
                 setJourneyTime(e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
                 System.out.println("Distancia total = " + journeyDistance);
+                System.out.println("Time total = " + journeyTime);
                 setDuration(origin, destination);
                 String calculatedPrice = df.format(PricingImpl.getInstance().calculatePrice(journeyDistance, journeyTime));
                 price.setText(calculatedPrice);
-                journeyDistanceLabel.setText("Distance: "+journeyDistance);
+                if (unitOfDistance.equals("KM")) {
+                    journeyDistanceLabel.setText("Distance: " + journeyDistance);
+                } else if(unitOfDistance.equals("M")) {
+                    int sub = journeyDistance.indexOf(" ");
+                    double distance = Double.parseDouble(journeyDistance.substring(0, sub));
+                    distance = Math.round(distance * 0.621371);
+                    journeyDistanceLabel.setText("Distance: " + distance + " miles");
+                }
             } catch(Exception ex){
-                System.out.println("ERRO: " + ex.getMessage());
+                System.out.println("ERROR: " + ex.getMessage());
+                ex.printStackTrace();
             }
 //            System.out.println("Duration total = " + e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
 //            System.out.println("LEG(0)");
