@@ -38,4 +38,9 @@ public class ObservableLists {
         accountList.addAll(Archive.allAccounts);
         accountListNoCash.addAll(Archive.allAccounts);
     }
+
+    public static void refreshDriverList(){  //Added Now
+        driverList.clear();
+        driverList.addAll(Archive.allDrivers);
+    }
 }
