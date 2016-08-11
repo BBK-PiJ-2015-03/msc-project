@@ -1,11 +1,9 @@
 package Controllers;
 
-import Model.Archive;
-import Model.BookingImpl;
-import Model.Cash;
-import Model.DriverImpl;
+import Model.*;
 import com.shaded.fasterxml.jackson.databind.JsonNode;
 import com.shaded.fasterxml.jackson.databind.ObjectMapper;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -110,8 +108,6 @@ public class LoadOnlineDatabase {
                 //double check below null
                 if(!driver.toString().equals("null") && !driverExists(driver.get("id").asInt())) {
                     DriverImpl d = new DriverImpl(driver.get("id").asText());
-                    System.out.println("1");
-                    System.out.println(driver.toString());
 
                     JsonNode driverName = driver.get("name");
                     d.setName(driverName.asText());
@@ -130,6 +126,19 @@ public class LoadOnlineDatabase {
 
                     JsonNode driverTel = driver.get("tel");
                     d.setTel(driverTel.asText());
+
+                    JsonNode driverActive = driver.get("Active");
+                    if (driverActive.asText().equals("True")){
+                        JsonNode driverStatus = driver.get("status");
+                        QueueBlockBuilder qb = new QueueBlockBuilder();
+                        AnchorPane ap = qb.newBlock(d.getId());
+                        if(driverStatus.asText().equals("Break")){
+                            qb.makeBreak(ap);
+                        } else if (driverStatus.asText().equals("Busy")){
+                            qb.makeBusy(ap);
+                        }
+                        ObservableLists.driverQueue.add(ap);
+                    }
 
 //                    JsonNode driverPcoDate = driver.get("pco_date");
 //                    d.setPcoExpiryDate(driverPcoDate.asText()); //Throws error (need to re-format)
