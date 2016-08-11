@@ -2,12 +2,12 @@ package Controllers;
 
 import Model.*;
 import Model.Interfaces.Account;
-import Model.Interfaces.Driver;
 import Utils.XmlParser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import org.xml.sax.SAXException;
 import resources.gmapsfx.GoogleMapView;
@@ -100,6 +100,8 @@ public class MainController implements Initializable, MapComponentInitializedLis
     private TableColumn<BookingImpl, String> commentCol;
     @FXML
     private TableColumn<BookingImpl, String> priceCol;
+    @FXML
+    private HBox dispatchQueue;
 
 
 
@@ -107,7 +109,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
     @FXML
     private Tab driversTab;
     @FXML
-    private ListView<Driver> driverTabList;
+    private ListView<DriverImpl> driverTabList;
     @FXML
     private Button driverTabDeleteButton;
     @FXML
@@ -146,6 +148,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
     private TextField addNewDriverField;
     @FXML
     private Button addNewDriverButton;
+    private DriverImpl selectedDriver;
 
     //Account tab UI controls
     @FXML
@@ -196,13 +199,20 @@ public class MainController implements Initializable, MapComponentInitializedLis
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LoadOnlineDatabase load = new LoadOnlineDatabase();
-        load.loadBookings();
+        initializeLists();
+        load.loadOnlineDatabase();
         refreshBookingNo();
         mapView.addMapInializedListener(this);
         BookingListener.start();
-        initializeLists();
+        DriverListener.start();
         initializeBookingForm();
         initializeBookingTable();
+        DriverQueueManager dqm = new DriverQueueManager();
+        dqm.startDriverQueue(dispatchQueue);
+//        for(DriverImpl driver : ObservableLists.driverList){
+//            newLabel.setTextFill(›‹‹™››ﬁ‹);
+//            dispatchQueue.getChildren().add(new AnchorPane().getChildren().add(new Label().setText("22")));
+//        }
     }
 
     public void refreshBookingNo(){
@@ -328,15 +338,49 @@ public class MainController implements Initializable, MapComponentInitializedLis
      * Driver Tab Methods
      */
     @FXML
-    public void addNewDriverButtonFired() {
+    public void addNewDriverButtonFired(){
         if(!addNewDriverField.getText().equals(null)) {
-            new DriverImpl(addNewDriverField.getText());
+            DriverImpl d = new DriverImpl(addNewDriverField.getText());
+            selectedDriver = d;
+            driverTabList.getSelectionModel().select(selectedDriver);
             addNewDriverField.clear();
+            driverTabListClicked();
+            DriverListener dl = new DriverListener();
+            dl.addDriver(d);
+
         }
     }
     @FXML
     public void driverTabListClicked(){
+        if(driverTabList.getSelectionModel().getSelectedItem() != null) {
+            selectedDriver = (DriverImpl) driverTabList.getSelectionModel().getSelectedItem();
+            driverNameField.setText(selectedDriver.getName());
+            driverPinField.setText(selectedDriver.getPinCode());
+            driverIdField.setText(selectedDriver.getId());
+            driverNisField.setText(selectedDriver.getNationalInsurance());
+            driverAddressField.setText(selectedDriver.getAddress());
+            driverPcoNoField.setText(selectedDriver.getPcoNumber());
+            driverPhoneField.setText(selectedDriver.getTel());
+         //   driverPcoDateField.setValue(selectedDriver.getPcoExpiryDate());
 
+        }
+    }
+
+    @FXML
+    public void driverSaveButtonFired(){
+//        if(selectedDriver == null) {
+        selectedDriver.setName(driverNameField.getText());
+        selectedDriver.setPinCode(driverPinField.getText());
+        selectedDriver.setId(driverIdField.getText());
+        selectedDriver.setNationalInsurance(driverNisField.getText());
+        selectedDriver.setAddress(driverAddressField.getText());
+        selectedDriver.setPcoNumber(driverPcoNoField.getText());
+        selectedDriver.setTel(driverPhoneField.getText());
+        ObservableLists.refreshDriverList();
+        driverTabList.getSelectionModel().select(selectedDriver);
+//        }
+        DriverListener dl = new DriverListener();
+        dl.addDriver(selectedDriver);
     }
 
     /**
@@ -352,6 +396,8 @@ public class MainController implements Initializable, MapComponentInitializedLis
             accountTabListClicked();
         }
     }
+
+
 
     @FXML
     public void accountTabListClicked(){
@@ -376,6 +422,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
             accountTabList.getSelectionModel().select(selectedAccount);
 //        }
     }
+
 
 }
 
