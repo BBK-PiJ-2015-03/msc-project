@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
  */
 public class BookingListener {
     private static Firebase bRef = new Firebase("https://amber-inferno-8546.firebaseio.com/Bookings/Awaiting_Dispatch");
+    private static Firebase dRef = new Firebase("https://amber-inferno-8546.firebaseio.com/Bookings/Dispatched");
 
     public static void start(){
         bRef.addChildEventListener(new ChildEventListener() {
@@ -61,8 +62,14 @@ public class BookingListener {
         });
     }
 
-    public static void addBooking(BookingImpl b){
-        Firebase bRefChild = bRef.child(b.getBookingNumber()+"");
+    public static void addBooking(BookingImpl b, String status){
+        Firebase bRefChild;
+        if(!status.equals("new")){
+            bRefChild = dRef.child(status);
+
+        } else {
+            bRefChild = bRef.child(b.getBookingNumber() + "");
+        }
         System.out.println(1);
         bRefChild.child("pickup").setValue(b.getPickUpAddress());//
         System.out.println(2);
@@ -98,4 +105,6 @@ public class BookingListener {
         bRefChild.child("price").setValue(b.getPrice());
         System.out.println(15);
     }
+
+
 }
