@@ -20,12 +20,10 @@ public class LoadBookingChange {
         try {
             URL url = new URL("https://amber-inferno-8546.firebaseio.com/Bookings/Awaiting_Dispatch.json");
             JsonNode bookings = objectMapper.readValue(url, JsonNode.class);
-            JsonNode booking = bookings.get(bookingNumber);
-            BookingImpl b = getBooking(bookingNumber);
-            final long startTime = System.currentTimeMillis();
+            JsonNode booking = bookings.get(bookingNumber+"");
 
-//            JsonNode bookingNo = booking.get("booking_number");
-//            b.setBookingNumber(bookingNo.asInt());
+            System.out.println("CHECKING: "+booking.get("name"));
+            BookingImpl b = getBooking(bookingNumber);
 
             JsonNode comment = booking.get("comment");
             if (!b.getComments().equals(comment.asText())) {
@@ -92,8 +90,6 @@ public class LoadBookingChange {
                 b.setPrice(price.asDouble());
                 System.out.println("1k");
             }
-            final long endTime = System.currentTimeMillis();
-            System.out.println("Total execution time: " + (endTime - startTime) );
 
         } catch (IOException e) {
             e.printStackTrace();
