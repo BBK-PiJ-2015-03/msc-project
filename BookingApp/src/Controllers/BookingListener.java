@@ -35,6 +35,7 @@ public class BookingListener {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Platform.runLater(() -> {
                     LoadBookingChange load = new LoadBookingChange();
+                    System.out.println("ADDING: +:"+Integer.parseInt(dataSnapshot.getKey()));
                     load.loadBookingChange(Integer.parseInt(dataSnapshot.getKey()));
                 });
                 System.out.println("Change happened!");
@@ -104,6 +105,7 @@ public class BookingListener {
         System.out.println(14);
         bRefChild.child("price").setValue(b.getPrice());
         System.out.println(15);
+
     }
 
 
