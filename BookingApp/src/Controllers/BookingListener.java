@@ -9,6 +9,7 @@ import com.firebase.client.FirebaseError;
 import javafx.application.Platform;
 
 import java.text.SimpleDateFormat;
+import java.util.ConcurrentModificationException;
 
 /**
  * Created by J2FX on 04/05/2016.
@@ -17,6 +18,10 @@ public class BookingListener {
     private static Firebase bRef = new Firebase("https://amber-inferno-8546.firebaseio.com/Bookings/Awaiting_Dispatch");
     private static Firebase dRef = new Firebase("https://amber-inferno-8546.firebaseio.com/Bookings/Dispatched");
 
+    /**
+     * Load online database, this takes all bookings that are awaiting dispatch and downloads them locally
+     * run on a the main thread.
+     */
     public static void start(){
         bRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -31,23 +36,41 @@ public class BookingListener {
 
             }
 
+            /**
+             * Whenever a booking has values changed on the database this method is run,
+             * the booking will be updated locally to match its values on the database.
+             * @param dataSnapshot the booking that has changed
+             * @param s
+             */
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Platform.runLater(() -> {
                     LoadBookingChange load = new LoadBookingChange();
-                    System.out.println("ADDING: +:"+Integer.parseInt(dataSnapshot.getKey()));
+//                    System.out.println("UPDATING BOOKING: "+Integer.parseInt(dataSnapshot.getKey()));
                     load.loadBookingChange(Integer.parseInt(dataSnapshot.getKey()));
                 });
-                System.out.println("Change happened!");
-                //Have to work out what change happened and apply it to local object
-
             }
 
+            /**
+             * When a booking is removed from the online database this method will remove it locally,
+             *
+             * ConcurrentModificationException may be thrown if this is run straight after
+             * application has been launched
+             * @param dataSnapshot
+             */
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                System.out.println("Remove happened!");
-                // delete local object of child removed
-
+                int removedBooking = Integer.parseInt(dataSnapshot.getKey());
+                try {
+                    ObservableLists.bookingsList.forEach(b -> {
+                        if(b.getBookingNumber() == removedBooking){
+                            ObservableLists.bookingsList.remove(b);
+                        }
+                    });
+                } catch (ConcurrentModificationException ex){
+                    //This occurs because I am removing an from a list while I am iterating through that list
+                    //functions properly and works well however if I have time I will look at alternative ways
+                }
 
             }
 
@@ -63,48 +86,41 @@ public class BookingListener {
         });
     }
 
+    /**
+     * Adds a booking to the database
+     * @param b the booking to add
+     * @param status status to assign the booking (either Awaiting_Dispatch, Dispatched, Completed)
+     */
     public static void addBooking(BookingImpl b, String status){
         Firebase bRefChild;
         if(!status.equals("new")){
+            //Dispatched Booking
+            //Removes from Awaiting_Dispatch and puts in Dispatched
             bRefChild = dRef.child(status);
-
+            bRef.child(b.getBookingNumber()+"").removeValue();
         } else {
             bRefChild = bRef.child(b.getBookingNumber() + "");
         }
-        System.out.println(1);
         bRefChild.child("pickup").setValue(b.getPickUpAddress());//
-        System.out.println(2);
         bRefChild.child("dropoff").setValue(b.getDropOffAddress());//
-        System.out.println(3);
         bRefChild.child("name").setValue(b.getClientName());//
-        System.out.println(4);
         bRefChild.child("time").setValue(b.getTime().toString());
-        System.out.println(5);
         bRefChild.child("comment").setValue(b.getComments());//
-        System.out.println(6);
         bRefChild.child("tel").setValue(b.getClientTel());//
-        System.out.println(7);
         bRefChild.child("email").setValue(b.getClientEmail());//
-        System.out.println(8);
         bRefChild.child("booking_number").setValue(b.getBookingNumber());//
-        System.out.println(9);
         bRefChild.child("account").setValue(Cash.getInstance().getId());
-        System.out.println(10);
         bRefChild.child("vehicle_type").setValue(b.getVehicleType());
-        System.out.println(11);
         bRefChild.child("no_passengers").setValue(b.getNoPassengers());
-        System.out.println(12);
         bRefChild.child("date").setValue(b.getDate());
-        System.out.println(13);
         try {
             bRefChild.child("time").setValue(new SimpleDateFormat("HH:mm").format(b.getTime()));
         } catch (IllegalArgumentException e){
             // Always throws this exception - unsure why as it saves correctly.
             // Do nothing as it still writes to database as expected
+            // Maybe need to look at different formats for time?
         }
-        System.out.println(14);
         bRefChild.child("price").setValue(b.getPrice());
-        System.out.println(15);
 
     }
 

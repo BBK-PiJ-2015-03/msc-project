@@ -7,10 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class AlertDispatch{
 
     public static BookingImpl booking;
+    public static Stage stage;
 
     @FXML
     private TextField selectedDriver;
@@ -27,9 +29,16 @@ public class AlertDispatch{
     @FXML
     private Button sendButton;
 
+    /**
+     * Dispatches job to driver
+     * @param event
+     */
     @FXML
     void dispatchJob(ActionEvent event) {
         BookingListener.addBooking(booking, selectedDriver.getText());
+//        ObservableLists.bookingsList.remove(booking);
+//        Removing booking from Awaiting_Dispatch key in database, should update locally aswell
+        stage.close();
     }
 
 }

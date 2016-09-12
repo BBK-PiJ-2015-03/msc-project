@@ -261,6 +261,15 @@ public class MainController implements Initializable, MapComponentInitializedLis
     }
 
     /**
+     * Dispatch form - press enter on job to dispatch
+     * @param event keypress
+     */
+    @FXML
+    private void bookingTableKeyPress(KeyEvent event){
+        kec.bookingTable(event, bookingTableView);
+    }
+
+    /**
      * Booking form methods
      */
 
@@ -316,7 +325,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
         b.setPrice(Double.parseDouble(bookingPriceField.getText()));
         //Clear the booking form
         initializeBookingForm();
-        BookingListener.addBooking(b);
+        BookingListener.addBooking(b, "new");
     }
 
     @FXML
@@ -422,6 +431,7 @@ public class MainController implements Initializable, MapComponentInitializedLis
             accountTabList.getSelectionModel().select(selectedAccount);
 //        }
     }
+
 
 
 }

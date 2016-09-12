@@ -27,6 +27,16 @@ import java.util.Date;
  */
 public class KeyEventController {
 
+    /**
+     * Start address lookup, when 'Enter' is pressed this will calculate the full address
+     * and replace the partial address/postcode in the given field.
+     * Could later improve this method with a drop down of all possible results, on each keypress update the drop down.
+     * @param event
+     * @throws ParserConfigurationException
+     * @throws TransformerException
+     * @throws SAXException
+     * @throws IOException
+     */
     void addressKeyPressed(KeyEvent event) throws ParserConfigurationException, TransformerException, SAXException, IOException {
         if (event.getCode() == KeyCode.ENTER) {
             Service<Void> backgroundThread = new Service<Void>() {
@@ -53,6 +63,10 @@ public class KeyEventController {
         }
     }
 
+    /**
+     * Check that time field has valid format eg 'HH:MM' and conforms to a 24 hour clock.
+     * @param event
+     */
     public void timeFieldValidation(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             TimeFieldValidator tfv = new TimeFieldValidator();
@@ -65,6 +79,11 @@ public class KeyEventController {
         }
     }
 
+    /**
+     * Calculates the systems current time and adds 5 minutes onto it
+     * this is used when initialising the booking form.
+     * @return current time + 5 minutes
+     */
     public Date currentTimePlusFiveMinutes() {
         Date d = Calendar.getInstance().getTime();
         Calendar cal = Calendar.getInstance();
@@ -73,6 +92,13 @@ public class KeyEventController {
         return cal.getTime();
     }
 
+    /**
+     * Provides a popup dialogue to allow the dispatch of highlighted job to a driver,
+     * when a job is highlighted and the 'Enter' key is pressed this will allow you to enter a
+     * driver ID to dispatch a job to them.
+     * @param event 'Enter' button
+     * @param table of bookings awaiting dispatch
+     */
     public void bookingTable(KeyEvent event, TableView table) {
         if(event.getCode() == KeyCode.ENTER){
             try {
@@ -82,6 +108,7 @@ public class KeyEventController {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                AlertDispatch.stage = stage;
             } catch (IOException e) {
                 e.printStackTrace();
             }

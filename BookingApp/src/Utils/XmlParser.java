@@ -13,13 +13,17 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class XmlParser {
-    public static void main(String[] args) throws ParserConfigurationException, TransformerException, SAXException, IOException {
-        XmlParser x = new XmlParser();
-//        Scanner s = new Scanner(System.in);
-//        String t = s.next();
-//        System.out.println(x.addressFromPostCode(t));
-        System.out.println("Time: "+x.getJourneyDuration("n166lh","e58au"));
-    }
+
+    /**
+     * Address lookup function - returns a full address from a given postcode or partial address
+     * Uses Google Maps Geocoding API
+     * @param postcode
+     * @return full address
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     public String addressFromPostCode (String postcode) throws IOException, ParserConfigurationException, SAXException, TransformerException {
         URL url = new URL("https://maps.googleapis.com/maps/api/geocode/xml?address="+postcode+"&key=AIzaSyB2kViW5AL4Q1vGaik53tkw6Ve1ZXdT2vg");
         Document doc = generateDoc(url);
@@ -31,6 +35,16 @@ public class XmlParser {
         }
     }
 
+    /**
+     * Returns duration for a proposed journey
+     * @param origin of pickup
+     * @param destination (the drop off location)
+     * @return the duration if calculated
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     public String getJourneyDuration (String origin, String destination) throws IOException, ParserConfigurationException, SAXException, TransformerException {
         origin = origin.replaceAll("\\s", "+");
         destination = destination.replaceAll("\\s", "+");
@@ -46,6 +60,14 @@ public class XmlParser {
         }
     }
 
+    /**
+     * Builds Document from URL
+     * @param url
+     * @return document
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     */
     private Document generateDoc(URL url) throws IOException, ParserConfigurationException, SAXException {
         URLConnection conn = url.openConnection();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

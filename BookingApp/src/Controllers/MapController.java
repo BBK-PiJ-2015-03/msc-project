@@ -129,7 +129,6 @@ public class MapController implements MapComponentInitializedListener,
     public void directionsReceived(DirectionsResult results, DirectionStatus status) {
         if(status.equals(DirectionStatus.OK)){
             DecimalFormat df = new DecimalFormat("#.00");
-//            System.out.println("OK");
             DirectionsResult e = results;
             GeocodingService gs = new GeocodingService();
             System.out.println("SIZE ROUTES: " + e.getRoutes().size() + "\n" + "ORIGIN: " + e.getRoutes().get(0).getLegs().get(0).getStartLocation());
@@ -139,8 +138,8 @@ public class MapController implements MapComponentInitializedListener,
                 setJourneyDistance(e.getRoutes().get(0).getLegs().get(0).getDistance().getText());
 
                 setJourneyTime(e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
-                System.out.println("Distancia total = " + journeyDistance);
-                System.out.println("Time total = " + journeyTime);
+//                System.out.println("Distancia total = " + journeyDistance);
+//                System.out.println("Time total = " + journeyTime);
                 setDuration(origin, destination);
                 String calculatedPrice = df.format(PricingImpl.getInstance().calculatePrice(journeyDistance, journeyTime));
                 price.setText(calculatedPrice);
@@ -153,7 +152,7 @@ public class MapController implements MapComponentInitializedListener,
                     journeyDistanceLabel.setText("Distance: " + distance + " miles");
                 }
             } catch(Exception ex){
-                System.out.println("ERROR: " + ex.getMessage());
+//                System.out.println("ERROR: " + ex.getMessage());
                 ex.printStackTrace();
             }
 //            System.out.println("Duration total = " + e.getRoutes().get(0).getLegs().get(0).getDuration().getText());
@@ -168,7 +167,7 @@ public class MapController implements MapComponentInitializedListener,
     public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
         if(status.equals(ElevationStatus.OK)){
             for(ElevationResult e : results){
-                System.out.println(" Elevation on "+ e.getLocation().toString() + " is " + e.getElevation());
+//                System.out.println(" Elevation on "+ e.getLocation().toString() + " is " + e.getElevation());
             }
         }
     }
@@ -177,8 +176,8 @@ public class MapController implements MapComponentInitializedListener,
     public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
         if(status.equals(GeocoderStatus.OK)){
             for(GeocodingResult e : results){
-                System.out.println(e.getVariableName());
-                System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
+//                System.out.println(e.getVariableName());
+//                System.out.println("GEOCODE: " + e.getFormattedAddress() + "\n" + e.toString());
             }
 
         }
@@ -187,6 +186,8 @@ public class MapController implements MapComponentInitializedListener,
 
 
 // Setting driver locations on map;
+// Will come back to this when setting up the live map
+//
 // LatLong joeSmithLocation = new LatLong(47.6197, -122.3
 // LatLong joshAndersonLocation = new LatLong(47.6297, -1
 // LatLong bobUnderwoodLocation = new LatLong(47.6397, -1
